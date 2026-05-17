@@ -6,31 +6,44 @@ PRINTF_FLOAT ?= 0
 LIBFT_MAKE = $(MAKE) -C $(LIBFT_DIR) PRINTF_FLOAT=$(PRINTF_FLOAT)
 
 # Source files
-SRC = src/main.c
-		
+SRCS = srcs/miniRT.c
+
 # Object files
-OBJ =$(SRC:.c=.o)
+OBJS =$(SRCS:.c=.o)
 
 # Dependency files
-DEP = $(OBJ:.o=.d)
+DEPS = $(OBJS:.o=.d)
 
 # Include .d files only if they exists ignore otherwise
--include $(DEP)
+-include $(DEPS)
 
 # Compiler and Flags(-MMD generate dependency files to update if .h files are updated -MP prevents errors for .h)
 CC = cc
-INCLUDES = -I./includes/
 CFLAGS = -Wall -Wextra -Werror -MMD -MP -g3 $(INCLUDES)
+INCLUDES = -I./includes/
+LIB_FLAGS = -L$(LIBFT_DIR) -lft -lm
+ifeq ($(PRINTF_FLOAT),1)
+	LIB_FLAGS += -lm
+endif
+# Add dependency flags and derived files
+DEPFLAGS = -MMD -MP
 
 # sets default target
 .DEFAULT_GOAL := all
 
 # build the target $(NAMES)
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
 	@echo "✓ built $(NAME)"
+
+$(LIBFT):
+	$(LIBFT_MAKE)
+
+# Ensure make will run libft's build to check if its source files were modified
+libft:
+	$(LIBFT_MAKE)
 
 #run with args
 run: $(NAME)
@@ -49,7 +62,7 @@ testv2: fclean
 	-valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS2)
 
 # Compile .c files to .o files and generate dependency files
-src/%.o: src/%.c
+srcs/%.o: srcs/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Remove object and dependency files
