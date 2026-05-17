@@ -1,0 +1,10 @@
+*.o
+*.d
+miniRT
+test
+*.out
+*.gch
+*.supp
+*test*
+*tmp*
+minilibx-linux/
