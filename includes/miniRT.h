@@ -6,7 +6,7 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/17 19:46:52 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/17 21:09:44 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include "../libft/libft.h"
 # include <errno.h>
+
+# define WIDTH    1920
+# define HEIGHT   1080
+# define ASPECT   ((double)WIDTH / HEIGHT)
+# define FOV_MAX  180
+# define EPSILON  1e-9
 
 typedef struct s_vec3
 {

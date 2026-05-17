@@ -1,0 +1,16 @@
+# renderer needs a scene that exercises every intersection function — sphere, plane, and cylinder all at once. 
+# When you integrate parser + renderer in week 2, this is the first file you throw at it. 
+# If anything is broken, you'll see it immediately.
+# TO-DO: decide whether to remove comments in .rt
+
+A 0.2 255,255,255
+
+C 0,0,-5 0,0,1 70
+
+L -2,3,-1 0.8 255,255,255
+
+sp 0,0,3 2 255,0,0
+
+pl 0,-2,0 0,1,0 100,100,100
+
+cy 2,0,3 0,1,0 1 4 0,0,255

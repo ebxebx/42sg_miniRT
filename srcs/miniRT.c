@@ -6,7 +6,7 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/17 19:37:52 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/17 20:14:14 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,9 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	render_scene(&scene);
+	/* if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)
+	{
+		ft_printf("Saving rendered image to \"%s\"\n", argv[2]);
+	} */
 	return (0);
 }

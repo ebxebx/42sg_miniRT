@@ -1,0 +1,19 @@
+# Each line is broken in a specific way:
+
+# A appears twice → should error: duplicate ambient
+# A ratio = 1.5 → out of range [0,1] → should error
+# sp radius = -1 → negative diameter → should error
+# pl normal = 5,0,0 → not in range [-1,1] → should error
+# cy colour B = 300 → out of range [0,255] → should error
+
+# KS TO-DO: Each broken element should trigger Error\n + a specific message and exit cleanly.
+
+
+A 1.5 255,255,255
+A 0.2 255,255,255
+
+C 0,0,-5 0,0,1 70
+
+sp 0,0,3 -1 255,0,0
+pl 0,-2,0 5,0,0 100,100,100
+cy 2,0,3 0,1,0 1 4 0,300,255
