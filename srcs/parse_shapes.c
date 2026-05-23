@@ -1,2 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_shapes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
+/*   Updated: 2026/05/23 23:28:29 by ka-tan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-parse_sphere, parse_plane, parse_cylinder
+#include "miniRT.h"
+
+//parse_sphere, parse_plane, parse_cylinder
