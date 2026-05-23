@@ -6,7 +6,7 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/17 21:09:44 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/23 21:56:46 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "../libft/libft.h"
+# include "../libft/get_next_line.h"
 # include <errno.h>
 
 # define WIDTH    1920
@@ -153,5 +154,11 @@ typedef struct s_mlx
 	int		line_len;
 	int		endian;
 }	t_mlx;
+
+/* parse.c */
+int		parse_scene(const char *filename, t_scene *scene);
+
+/* parse_line.c */
+int		parse_line(char *line, t_scene *scene);
 
 #endif
