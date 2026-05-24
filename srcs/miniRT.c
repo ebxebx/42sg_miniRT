@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/17 20:14:14 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/24 18:52:32 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,27 @@ void	render_scene(t_scene *scene)
 	(void)scene;
 }
 
+void	save_image(const char *filename, t_scene *scene)
+{
+	(void)scene;
+
+	ft_printf("Saving rendered image to \"%s\"\n", filename);
+}
+
+void	test(void)
+{
+	ft_printf("Test function called\n");
+	t_vec3 vec;
+
+	vec = vec3_init(1, 2, 3);
+	ft_printf("vec3_init(1, 2, 3) = (%f, %f, %f)\n", vec.x, vec.y, vec.z);
+}
+
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
 
-	if (argc != 2)
+	if (argc < 2)
 	{
 		ft_putstr_fd("Usage: ./miniRT <scene_file.rt>\n", 2);
 		return (1);
@@ -44,9 +60,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	render_scene(&scene);
-	/* if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)
-	{
-		ft_printf("Saving rendered image to \"%s\"\n", argv[2]);
-	} */
+	if (argc >= 3 && ft_strcmp(argv[2], "--save") == 0)
+		save_image(argv[3], &scene);
+	test();
 	return (0);
 }

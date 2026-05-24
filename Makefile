@@ -1,12 +1,18 @@
 NAME = miniRT
+ARGS = ./scenes/minimalist.rt --save minimalist.ppm
+ARGS2 = ./scenes/full.rt --save full.ppm
 
 LIBFT_DIR = ./libft
 LIBFT     = $(LIBFT_DIR)/libft.a
-PRINTF_FLOAT ?= 0
+PRINTF_FLOAT ?= 1
 LIBFT_MAKE = $(MAKE) -C $(LIBFT_DIR) PRINTF_FLOAT=$(PRINTF_FLOAT)
 
+# Source directory
+SRCS_DIR = srcs
+
 # Source files
-SRCS = srcs/miniRT.c
+SRCS = $(SRCS_DIR)/miniRT.c \
+       $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c $(SRCS_DIR)/vec3/vec3_helper.c
 
 # Object files
 OBJS =$(SRCS:.c=.o)
@@ -67,15 +73,14 @@ srcs/%.o: srcs/%.c
 
 # Remove object and dependency files
 clean:
-	rm -f $(OBJ) $(DEP)
+	rm -f $(OBJS) $(DEPS)
 
 # Remove program
 fclean: clean
-	rm -f $(NAME) 
-	
+	rm -f $(NAME) $(LIBFT)
+
 # Delete everything and rebuilt from scratch
 re: fclean all
 
 # Phony targets (commands and not files)
 .PHONY: all clean fclean re testv run run2 
-
