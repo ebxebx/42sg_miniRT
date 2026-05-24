@@ -6,7 +6,13 @@ PRINTF_FLOAT ?= 0
 LIBFT_MAKE = $(MAKE) -C $(LIBFT_DIR) PRINTF_FLOAT=$(PRINTF_FLOAT)
 
 # Source files
-SRCS = srcs/miniRT.c
+SRCS = srcs/miniRT.c \
+       srcs/parse.c \
+       srcs/parse_elements.c \
+       srcs/parse_line.c \
+       srcs/parse_shapes.c \
+       srcs/parse_utils.c \
+	   srcs/parse_utils_split.c \
 
 # Object files
 OBJS =$(SRCS:.c=.o)
@@ -67,7 +73,7 @@ srcs/%.o: srcs/%.c
 
 # Remove object and dependency files
 clean:
-	rm -f $(OBJ) $(DEP)
+	rm -f $(OBJS) $(DEPS)
 
 # Remove program
 fclean: clean

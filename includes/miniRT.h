@@ -6,7 +6,7 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/23 21:56:46 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/24 19:43:31 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define FOV_MAX  180
 # define EPSILON  1e-9
 
+// 3D vector, can represent pos, dir, col, field of view(fov)
 typedef struct s_vec3
 {
 	double	x;
@@ -158,7 +159,15 @@ typedef struct s_mlx
 /* parse.c */
 int		parse_scene(const char *filename, t_scene *scene);
 
-/* parse_line.c */
-int		parse_line(char *line, t_scene *scene);
+// parse_line.c
+//int		parse_line(char *line, t_scene *scene);
+
+// parse_utils_split.c
+void	free_tokens(char **arr);
+char	**split_line(const char *line);
+
+//parse_utils.c
+int		parse_double(const char *s, double *out);
+int		validate_range(double value, double min, double max);
 
 #endif

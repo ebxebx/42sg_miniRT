@@ -6,7 +6,7 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/23 22:31:42 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/24 17:46:02 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,18 @@ int	main(int argc, char **argv)
 {
 	t_scene	scene;
 
+/* 	char **t = split_line("  A   0.2   255,255,255\n");
+	int i = 0; */
+	
 	check_args(argc, argv);
 	if (parse_scene(argv[1], &scene) == -1)
 		return (1);
 	render_scene(&scene);
+/* 	while (t[i])
+	{
+		ft_printf("[%s]\n", t[i]);
+		i++;
+	}
+	free_tokens(t, i); */
 	return (0);
 }
