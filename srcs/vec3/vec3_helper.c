@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 18:39:14 by zchoo             #+#    #+#             */
-/*   Updated: 2026/05/24 22:06:42 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/26 20:35:57 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,10 @@ t_vec3	vec3_dup(t_vec3 v)
 t_vec3	vec3_zero(void)
 {
 	return (vec3_init(0.0f, 0.0f, 0.0f));
+}
+
+// Check if two doubles are approximately equal
+int	double_equal(double a, double b)
+{
+	return (fabs(a - b) < EPSILON);
 }

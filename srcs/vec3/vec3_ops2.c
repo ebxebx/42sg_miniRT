@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 16:46:01 by zchoo             #+#    #+#             */
-/*   Updated: 2026/05/24 18:21:13 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/26 20:40:36 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 // Compute the normalised (unit) vector of a vector
 //	||v|| = sqrt(v . v)
 //	v̂ = v / ||v||
+// If the length is zero, return a zero vector to avoid division by zero
 t_vec3	vec3_norm(t_vec3 v)
 {
-	float len = vec3_len(v);
+	float	len;
+
+	len = vec3_len(v);
+	if (double_equal(len, 0.0f))
+		return (vec3_zero());
 	return (vec3_scale(v, 1.0f / len));
 }
 

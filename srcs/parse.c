@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:12 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/24 22:19:03 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/26 20:26:30 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	parse_scene(const char *filename, t_scene *scene)
 {
 	(void)filename;
 	(void)scene;
+	is_blank_line(NULL);
 	return (0);
 }
 

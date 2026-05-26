@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/24 22:37:13 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/26 20:37:31 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	check_args(int argc, char **argv)
 	}
 }
 
-
-
 void	render_scene(t_scene *scene)
 {
 	(void)scene;
@@ -39,15 +37,14 @@ void	render_scene(t_scene *scene)
 void	save_image(const char *filename, t_scene *scene)
 {
 	(void)scene;
-
 	ft_printf("Saving rendered image to \"%s\"\n", filename);
 }
 
 void	test(void)
 {
-	ft_printf("Test function called\n");
-	t_vec3 vec;
+	t_vec3	vec;
 
+	ft_printf("Test function called\n");
 	vec = vec3_init(1, 2, 3);
 	ft_printf("vec3_init(1, 2, 3) = (%f, %f, %f)\n", vec.x, vec.y, vec.z);
 }

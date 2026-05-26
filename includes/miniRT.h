@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/24 22:32:52 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/26 20:32:09 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@
 # define HEIGHT 1080
 # define ASPECT ((double)WIDTH / HEIGHT)
 # define FOV_MAX 180
-# define EPSILON 1e-9
-# define WIDTH    1920
-# define HEIGHT   1080
-# define ASPECT   ((double)WIDTH / HEIGHT)
-# define FOV_MAX  180
-# define EPSILON  1e-9
-
-// 3D vector, can represent pos, dir, col, field of view(fov)
-typedef struct s_vec3
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_vec3;
 
 typedef struct s_ray
 {
@@ -176,13 +162,5 @@ char	**split_line(const char *line);
 //parse_utils.c
 int		parse_double(const char *s, double *out);
 int		validate_range(double value, double min, double max);
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*addr;
-	int				bpp;
-	int				line_len;
-	int				endian;
-}					t_mlx;
 
 #endif
