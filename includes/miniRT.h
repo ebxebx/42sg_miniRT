@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 15:14:18 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/27 21:51:58 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <math.h>
 # include "vec3.h"
+# include "parse.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -129,6 +130,9 @@ typedef struct s_hit
 
 typedef struct s_scene
 {
+	int				has_ambient; // flag to check for duplicates
+	int				has_camera;
+	int				has_light;
 	t_ambient		ambient;
 	t_camera		camera;
 
@@ -149,19 +153,5 @@ typedef struct s_mlx
 	int		line_len;
 	int		endian;
 }	t_mlx;
-
-/* parse.c */
-int		parse_scene(const char *filename, t_scene *scene);
-
-// parse_line.c
-//int		parse_line(char *line, t_scene *scene);
-
-// parse_utils_split.c
-void	free_tokens(char **arr);
-char	**split_line(const char *line);
-
-//parse_utils.c
-int		parse_double(const char *s, double *out);
-int		validate_range(double value, double min, double max);
 
 #endif

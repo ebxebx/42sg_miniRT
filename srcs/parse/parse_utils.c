@@ -6,13 +6,13 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 15:15:07 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/24 19:43:10 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/27 19:38:44 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// Count the number of tokens in a line (' ', '\n', '\t' delimiters)
+// check if is digits and has .
 static int	is_valid_double(const char *s)
 {
 	int	has_digit;
@@ -31,9 +31,10 @@ static int	is_valid_double(const char *s)
 	return (1);
 }
 
+//-1 if s is NULL or not a valid number.
 int	parse_double(const char *s, double *out)
 {
-	if (!s || is_valid_double(s))
+	if (!s || !is_valid_double(s))
 		return (-1);
 	*out = ft_atof(s);
 	return (0);
@@ -47,6 +48,7 @@ int	validate_range(double value, double min, double max)
 	return (0);
 }
 
+//split each token into the x, y, z of 3D vec
 int	parse_vec3(const char *token, t_vec3 *out)
 {
 	char	**parts;
@@ -69,5 +71,26 @@ int	parse_vec3(const char *token, t_vec3 *out)
 		return (-1);
 	}
 	free_tokens(parts);
+	return (0);
+}
+
+int	parse_rgb(const char *token, t_vec3 *out)
+{
+	t_vec3	rgb;
+
+	if (parse_vec3(token, &rgb) == -1)
+	{
+		ft_putstr_fd("Error: RGB must be three numbers in format R,G,B\n", 2);
+		return (-1);
+	}
+	if (!validate_range(rgb.x, 0, 255) || !validate_range(rgb.y, 0, 255)
+		|| !validate_range(rgb.z, 0, 255))
+	{
+		ft_putstr_fd("Error: RGB values must be between 0 and 255\n", 2);
+		return (-1);
+	}
+	out->x = rgb.x / 255.0;
+	out->y = rgb.y / 255.0;
+	out->z = rgb.z / 255.0;
 	return (0);
 }

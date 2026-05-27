@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/26 20:46:55 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/27 20:19:23 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,29 @@ void	save_image(const char *filename, t_scene *scene)
 	ft_printf("Saving rendered image to \"%s\"\n", filename);
 }
 
-void	test(void)
+/* void	test(void)
 {
 	t_vec3	vec;
 
 	ft_printf("Test function called\n");
 	vec = vec3_init(1, 2, 3);
 	ft_printf("vec3_init(1, 2, 3) = (%f, %f, %f)\n", vec.x, vec.y, vec.z);
-	test_vec3();
+	//test_vec3();
+} */
+
+void	test(void)
+{
+	t_scene	scene;
+	char	*tokens[4];
+
+	/* Happy path */
+	tokens[0] = "A";
+	tokens[1] = "0.2";
+	tokens[2] = "255,128,0";
+	tokens[3] = NULL;
+	parse_ambient(tokens, &scene);
 }
+
 
 int	main(int argc, char **argv)
 {
@@ -58,8 +72,5 @@ int	main(int argc, char **argv)
 	if (parse_scene(argv[1], &scene) == -1)
 		return (1);
 	render_scene(&scene);
-	if (argc >= 3 && ft_strcmp(argv[2], "--save") == 0)
-		save_image(argv[3], &scene);
-	test();
 	return (0);
 }
