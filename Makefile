@@ -12,7 +12,8 @@ SRCS_DIR = srcs
 
 # Source files
 SRCS = $(SRCS_DIR)/miniRT.c \
-       $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c $(SRCS_DIR)/vec3/vec3_helper.c \
+       $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c \
+	   $(SRCS_DIR)/vec3/vec3_helper.c $(SRCS_DIR)/vec3/vec3_test.c \
        $(SRCS_DIR)/parse.c \
        $(SRCS_DIR)/parse_elements.c \
        $(SRCS_DIR)/parse_line.c \

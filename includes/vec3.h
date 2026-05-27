@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 16:34:35 by zchoo             #+#    #+#             */
-/*   Updated: 2026/05/26 20:35:23 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/26 20:44:41 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,8 @@ t_vec3		vec3_init(double x, double y, double z);
 t_vec3		vec3_dup(t_vec3 v);
 t_vec3		vec3_zero(void);
 int			double_equal(double a, double b);
+
+// vec3_test.c
+int			test_vec3(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/26 20:32:09 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/27 15:14:18 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define ASPECT ((double)WIDTH / HEIGHT)
+// # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
+# define ASPECT 1.77778
 # define FOV_MAX 180
 
 typedef struct s_ray
@@ -105,7 +106,7 @@ typedef union u_shape
 
 typedef struct s_object
 {
-	int				type;
+	t_type			type;
 	t_vec3			colour;
 	t_shape			shape;
 	struct s_object	*next;

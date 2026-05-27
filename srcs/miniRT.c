@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/26 20:37:31 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/05/26 20:46:55 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	test(void)
 	ft_printf("Test function called\n");
 	vec = vec3_init(1, 2, 3);
 	ft_printf("vec3_init(1, 2, 3) = (%f, %f, %f)\n", vec.x, vec.y, vec.z);
+	test_vec3();
 }
 
 int	main(int argc, char **argv)
