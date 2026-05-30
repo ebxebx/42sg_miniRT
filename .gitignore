@@ -11,3 +11,7 @@ test
 minilibx-linux/
 CLAUDE.md
 *.json
+.DS_Store
+
+# TO-DO: remove resources/ when the project is done
+# resources/
