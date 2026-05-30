@@ -8,6 +8,7 @@
 A 0.2 255,255,255
 
 #camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# fov x-axis only, y-axis follows aspect ratio,
 #The camera is 5 units behind the origin on the Z axis. It looks forward along the positive Z direction.
 C 0,0,-5 0,0,1 70
 
