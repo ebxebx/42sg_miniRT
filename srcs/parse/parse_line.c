@@ -60,7 +60,7 @@ static int	process_line(char *line, t_scene *scene)
 }
 
 // Reads the file line by line, skipping blanks, stopping on the first error.
-static int	read_lines(int fd, t_scene *scene)
+int	read_lines(int fd, t_scene *scene)
 {
 	char	*line;
 	int		failed;
@@ -76,26 +76,4 @@ static int	read_lines(int fd, t_scene *scene)
 	}
 	free(line);
 	return (failed);
-}
-
-// Opens the scene file, parses every line, and returns -1 on any error.
-int	parse_scene(const char *filename, t_scene *scene)
-{
-	int	fd;
-	int	failed;
-
-	ft_bzero(scene, sizeof(t_scene));
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error: Cannot open scene file\n", 2);
-		return (-1);
-	}
-	failed = read_lines(fd, scene);
-	close(fd);
-	if (failed)
-		return (-1);
-	if (check_scene_counts(scene))
-		return (-1);
-	return (0);
 }

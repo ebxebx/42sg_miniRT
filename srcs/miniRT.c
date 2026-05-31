@@ -88,9 +88,13 @@ int	main(int argc, char **argv)
 
 	check_args(argc, argv);
 	if (parse_scene(argv[1], &scene) == -1)
+	{
+		scene_free(&scene);
 		return (1);
+	}
 	ft_printf("objects:\n");
 	dump_objects(scene.objects);
 	render_scene(&scene);
+	scene_free(&scene);
 	return (0);
 }

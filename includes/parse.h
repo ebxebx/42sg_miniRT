@@ -22,8 +22,12 @@
 typedef struct s_scene	t_scene;
 typedef struct s_object	t_object;
 
-// parse.c
+// parse_and_free_scene.c
 int		parse_scene(const char *filename, t_scene *scene);
+void	scene_free(t_scene *scene);
+
+// parse_line.c (internal — used by parse_scene)
+int		read_lines(int fd, t_scene *scene);
 
 // parse_elements.c
 int		check_scene_counts(t_scene *scene);
