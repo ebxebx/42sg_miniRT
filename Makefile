@@ -14,9 +14,9 @@ SRCS_DIR = srcs
 SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c \
 	   $(SRCS_DIR)/vec3/vec3_helper.c \
-       $(SRCS_DIR)/parse/parse.c \
-       $(SRCS_DIR)/parse/parse_elements.c \
        $(SRCS_DIR)/parse/parse_line.c \
+       $(SRCS_DIR)/parse/parse_elements.c \
+       $(SRCS_DIR)/parse/parse_light.c \
        $(SRCS_DIR)/parse/parse_shapes.c \
        $(SRCS_DIR)/parse/parse_utils.c \
        $(SRCS_DIR)/parse/parse_utils_split.c

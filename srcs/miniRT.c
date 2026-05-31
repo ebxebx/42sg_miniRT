@@ -64,6 +64,24 @@ void	test(void)
 }
 
 
+static void	dump_objects(t_object *obj)
+{
+	while (obj)
+	{
+		if (obj->type == SPHERE)
+			ft_printf("  sp centre=(%f,%f,%f) r=%f\n",
+				obj->shape.sp.centre.x, obj->shape.sp.centre.y,
+				obj->shape.sp.centre.z, obj->shape.sp.radius);
+		else if (obj->type == PLANE)
+			ft_printf("  pl point=(%f,%f,%f)\n",
+				obj->shape.pl.point.x, obj->shape.pl.point.y,
+				obj->shape.pl.point.z);
+		else
+			ft_printf("  cy (stub)\n");
+		obj = obj->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
@@ -71,6 +89,8 @@ int	main(int argc, char **argv)
 	check_args(argc, argv);
 	if (parse_scene(argv[1], &scene) == -1)
 		return (1);
+	ft_printf("objects:\n");
+	dump_objects(scene.objects);
 	render_scene(&scene);
 	return (0);
 }

@@ -6,14 +6,11 @@
 /*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 22:20:22 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/05/31 19:33:16 by ka-tan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-// 5 functions: check_scene_counts, parse_ambient, parse_orient, build_camera_axes, parse_camera
-// TODO: parse_light to be added in its own file (at the 5-function limit)
 
 // Checks A, C, L each appeared exactly once. Returns 1 and prints the specific error if not.
 int	check_scene_counts(t_scene *scene)
@@ -86,7 +83,8 @@ static int	parse_orient(const char *token, t_vec3 *dir)
 
 // Derives the camera's right and up axes from its forward direction (dir),
 // and precomputes half_w = tan(fov/2) so ray generation needs no trig per pixel.
-// Edge case: if dir == (0,1,0) (straight up), cross product degenerates — not handled.
+// If dir is nearly parallel to world_up (0,1,0), the cross product degenerates
+// to a zero vector — we fall back to (0,0,1) as the reference up axis instead.
 static void	build_camera_axes(t_camera *cam)
 {
 	t_vec3	world_up;
@@ -94,6 +92,12 @@ static void	build_camera_axes(t_camera *cam)
 	world_up.x = 0;
 	world_up.y = 1;
 	world_up.z = 0;
+	/* camera pointing straight up or down — use z-axis as fallback */
+	if (fabsf(vec3_dot(cam->dir, world_up)) > 0.99f)
+	{
+		world_up.y = 0;
+		world_up.z = 1;
+	}
 	cam->right = vec3_norm(vec3_cross(cam->dir, world_up));
 	cam->up = vec3_cross(cam->right, cam->dir);
 	/* tan(fov_deg/2 * pi/180) simplifies to tan(fov_deg * pi/360) */
