@@ -7,6 +7,10 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 PRINTF_FLOAT ?= 1
 LIBFT_MAKE = $(MAKE) -C $(LIBFT_DIR) PRINTF_FLOAT=$(PRINTF_FLOAT)
 
+MLX_DIR = ./minilibx-linux
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -lm -lXext -lX11
+MLX_LIB = $(MLX_DIR)/libmlx.a
+
 # Source directory
 SRCS_DIR = srcs
 
@@ -14,6 +18,7 @@ SRCS_DIR = srcs
 SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c \
 	   $(SRCS_DIR)/vec3/vec3_helper.c \
+	   $(SRCS_DIR)/ray/ray_ops.c \
        $(SRCS_DIR)/parse/parse_and_free_scene.c \
        $(SRCS_DIR)/parse/parse_line.c \
        $(SRCS_DIR)/parse/parse_elements.c \
@@ -48,12 +53,15 @@ DEPFLAGS = -MMD -MP
 # build the target $(NAMES)
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(NAME)
 	@echo "✓ built $(NAME)"
 
 $(LIBFT):
 	$(LIBFT_MAKE)
+
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_DIR)
 
 # Ensure make will run libft's build to check if its source files were modified
 libft:

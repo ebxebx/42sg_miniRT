@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 20:19:23 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/06/02 20:59:48 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	render_scene(t_scene *scene)
 void	save_image(const char *filename, t_scene *scene)
 {
 	(void)scene;
+	// mlx_xpm_to_image()
 	ft_printf("Saving rendered image to \"%s\"\n", filename);
 }
 
@@ -63,28 +64,77 @@ void	test(void)
 	parse_ambient(tokens, &scene);
 }
 
-
 static void	dump_objects(t_object *obj)
 {
 	while (obj)
 	{
 		if (obj->type == SPHERE)
-			ft_printf("  sp centre=(%f,%f,%f) r=%f\n",
-				obj->shape.sp.centre.x, obj->shape.sp.centre.y,
-				obj->shape.sp.centre.z, obj->shape.sp.radius);
+			ft_printf("  sp centre=(%f,%f,%f) r=%f\n", obj->shape.sp.centre.x,
+				obj->shape.sp.centre.y, obj->shape.sp.centre.z,
+				obj->shape.sp.radius);
 		else if (obj->type == PLANE)
-			ft_printf("  pl point=(%f,%f,%f)\n",
-				obj->shape.pl.point.x, obj->shape.pl.point.y,
-				obj->shape.pl.point.z);
+			ft_printf("  pl point=(%f,%f,%f)\n", obj->shape.pl.point.x,
+				obj->shape.pl.point.y, obj->shape.pl.point.z);
 		else
 			ft_printf("  cy (stub)\n");
 		obj = obj->next;
 	}
 }
 
+void	init_mlx(t_mlx *mlx)
+{
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "miniRT");
+	mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_len,
+			&mlx->endian);
+}
+
+static int	free_memory(t_mlx *mlx)
+{
+	if (!mlx)
+		return (1);
+	free(mlx);
+	return (0);
+}
+
+int	close_window(t_mlx *mlx)
+{
+	ft_printf("Close hook triggered\n");
+	mlx_destroy_image(mlx->mlx, mlx->img);
+	mlx_clear_window(mlx->mlx, mlx->win);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	mlx_destroy_display(mlx->mlx);
+	free_memory(mlx);
+	exit(0);
+	return (0);
+}
+
+int	key_hook(int keycode, void *param)
+{
+	ft_printf("Key pressed: %d/0x%x\n", keycode, keycode);
+	if (keycode == XK_Escape)
+		close_window((t_mlx *)param);
+	return (0);
+}
+
+int	expose_hook(void* data)
+{
+	render_scene((t_scene *)data);
+	ft_printf("Expose hook triggered\n");
+	return (0);
+}
+
+int	loop_hook(t_mlx *mlx)
+{
+	(void)mlx;
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
+	t_mlx	mlx;
 
 	check_args(argc, argv);
 	if (parse_scene(argv[1], &scene) == -1)
@@ -96,5 +146,12 @@ int	main(int argc, char **argv)
 	dump_objects(scene.objects);
 	render_scene(&scene);
 	scene_free(&scene);
+	init_mlx(&mlx);
+	mlx_key_hook(mlx.win, key_hook, &mlx);
+	mlx_hook(mlx.win, 17, 0, close_window, &mlx);
+	mlx_expose_hook(mlx.win, expose_hook, &mlx);
+	mlx_string_put(mlx.mlx, mlx.win, 10, 10, 0xFFFFFF, "Hello, miniRT!");
+	mlx_loop_hook(mlx.mlx, loop_hook, &mlx);
+	mlx_loop(mlx.mlx);
 	return (0);
 }

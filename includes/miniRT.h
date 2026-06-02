@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 21:51:58 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/06/02 20:51:29 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 
 # include "../libft/libft.h"
 # include "../libft/get_next_line.h"
+# include "../minilibx-linux/mlx.h"
+# include <X11/keysym.h>
+# include <X11/Xlib.h>
 # include <errno.h>
 # include <math.h>
 # include "vec3.h"
+# include "ray.h"
 # include "parse.h"
 
 # define WIDTH 1920
@@ -26,15 +30,7 @@
 # define ASPECT 1.77778
 # define FOV_MAX 180
 
-typedef struct s_ray
-{
-	/* camera pos, or hit point for shadow rays */
-	t_vec3			origin;
 
-	/* MUST always be length 1.0 — normalise before storing */
-	t_vec3			direction;
-}					t_ray;
-/* a point on the ray = origin + t * direction */
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */
@@ -53,6 +49,7 @@ typedef struct s_light
 	t_vec3			colour;
 	struct s_light	*next;
 }					t_light;
+
 typedef struct s_camera
 {
 	t_vec3			pos;
