@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/02 20:51:29 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/03 18:22:26 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@
 # include "vec3.h"
 # include "ray.h"
 # include "parse.h"
+# include "mlx_helper.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
 // # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
 # define ASPECT 1.77778
 # define FOV_MAX 180
-
-
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */
@@ -138,17 +137,8 @@ typedef struct s_scene
 
 	/* linked list of all shapes */
 	t_object		*objects;
-}					t_scene;
 
-typedef struct s_mlx
-{
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_len;
-	int		endian;
-}	t_mlx;
+	t_mlx			*mlx;
+}					t_scene;
 
 #endif

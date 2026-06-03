@@ -18,6 +18,7 @@ SRCS_DIR = srcs
 SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c \
 	   $(SRCS_DIR)/vec3/vec3_helper.c \
+	   $(SRCS_DIR)/mlx_helper/mlx_helper.c \
 	   $(SRCS_DIR)/ray/ray_ops.c \
        $(SRCS_DIR)/parse/parse_and_free_scene.c \
        $(SRCS_DIR)/parse/parse_line.c \

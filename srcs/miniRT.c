@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/02 20:59:48 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/03 18:44:19 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ static void	check_args(int argc, char **argv)
 void	render_scene(t_scene *scene)
 {
 	(void)scene;
+	ft_printf("Rendering scene...\n");
+	// Render the scene using the mlx functions
+	color_map_1(scene->mlx, WIDTH, HEIGHT);
+	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img, 0, 0);
 }
 
 void	save_image(const char *filename, t_scene *scene)
@@ -134,7 +138,6 @@ int	loop_hook(t_mlx *mlx)
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
-	t_mlx	mlx;
 
 	check_args(argc, argv);
 	if (parse_scene(argv[1], &scene) == -1)
@@ -144,14 +147,23 @@ int	main(int argc, char **argv)
 	}
 	ft_printf("objects:\n");
 	dump_objects(scene.objects);
+
+	scene.mlx = malloc(sizeof(t_mlx));
+	if (scene.mlx == NULL)
+	{
+		ft_putstr_fd("Error: Failed to allocate memory for mlx\n", 2);
+		return (1);
+	}
+	init_mlx(scene.mlx);
+	mlx_key_hook(scene.mlx->win, key_hook, scene.mlx);
+	mlx_hook(scene.mlx->win, 17, 0, close_window, scene.mlx);
+	mlx_expose_hook(scene.mlx->win, expose_hook, scene.mlx);
+	mlx_string_put(scene.mlx->mlx, scene.mlx->win, 10, 10, 0xFFFFFF, "Hello, miniRT!");
+	mlx_loop_hook(scene.mlx->mlx, loop_hook, scene.mlx);
+	
 	render_scene(&scene);
+	
+	mlx_loop(scene.mlx->mlx);
 	scene_free(&scene);
-	init_mlx(&mlx);
-	mlx_key_hook(mlx.win, key_hook, &mlx);
-	mlx_hook(mlx.win, 17, 0, close_window, &mlx);
-	mlx_expose_hook(mlx.win, expose_hook, &mlx);
-	mlx_string_put(mlx.mlx, mlx.win, 10, 10, 0xFFFFFF, "Hello, miniRT!");
-	mlx_loop_hook(mlx.mlx, loop_hook, &mlx);
-	mlx_loop(mlx.mlx);
 	return (0);
 }
