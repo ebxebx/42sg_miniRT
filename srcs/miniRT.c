@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/03 18:44:19 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/03 19:13:46 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,49 @@ int	loop_hook(t_mlx *mlx)
 {
 	(void)mlx;
 	return (0);
+}
+
+void	ray_test(t_mlx *mlx)
+{
+    // Image
+    int image_width = WIDTH;
+
+    // Calculate the image height, and ensure that it's at least 1.
+    int image_height = (int)(image_width / ASPECT);
+    image_height = (image_height < 1) ? 1 : image_height;
+
+    // Camera
+    double focal_length = 1.0;
+    double viewport_height = 2.0;
+    double viewport_width = viewport_height * (double(image_width)/image_height);
+    t_vec3 camera_center = vec3_zero();
+
+    // Calculate the vectors across the horizontal and down the vertical viewport edges.
+    t_vec3 viewport_u = vec3_init(viewport_width, 0, 0);
+    t_vec3 viewport_v = vec3_init(0, -viewport_height, 0);
+
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    t_vec3 pixel_delta_u = vec3_scale(viewport_u, 1.0 / image_width);
+    t_vec3 pixel_delta_v = vec3_scale(viewport_v, 1.0 / image_height);
+
+    // Calculate the location of the upper left pixel.
+    t_vec3 viewport_upper_left = vec3_sub(camera_center, vec3_init(0, 0, focal_length));
+    viewport_upper_left = vec3_sub(viewport_upper_left, vec3_scale(viewport_u, 0.5));
+    viewport_upper_left = vec3_sub(viewport_upper_left, vec3_scale(viewport_v, 0.5));
+    t_vec3 pixel00_loc = vec3_add(viewport_upper_left, vec3_scale(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
+
+    // Render
+
+    for (int j = 0; j < image_height; j++) {
+        for (int i = 0; i < image_width; i++) {
+            t_vec3 pixel_center = vec3_add(pixel00_loc, vec3_add(vec3_scale(pixel_delta_u, i), vec3_scale(pixel_delta_v, j)));
+            t_vec3 ray_direction = vec3_sub(pixel_center, camera_center);
+            t_ray r = ray_init(camera_center, ray_direction);
+
+            t_color pixel_color = ray_color(r);
+
+        }
+    }
 }
 
 int	main(int argc, char **argv)
