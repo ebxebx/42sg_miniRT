@@ -6,24 +6,25 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/03 18:22:26 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 15:00:13 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft/libft.h"
 # include "../libft/get_next_line.h"
+# include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
-# include <X11/keysym.h>
+# include "mlx_helper.h"
+# include "parse.h"
+# include "ray.h"
+# include "color.h"
+# include "vec3.h"
 # include <X11/Xlib.h>
+# include <X11/keysym.h>
 # include <errno.h>
 # include <math.h>
-# include "vec3.h"
-# include "ray.h"
-# include "parse.h"
-# include "mlx_helper.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -126,9 +127,11 @@ typedef struct s_hit
 
 typedef struct s_scene
 {
-	int				has_ambient; // flag to check for duplicates
+	/* flags to check for duplicates */
+	int				has_ambient;
 	int				has_camera;
 	int				has_light;
+
 	t_ambient		ambient;
 	t_camera		camera;
 

@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 18:19:54 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/03 18:36:12 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 12:52:01 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MLX_HELPER_H
 
 # include "../minilibx-linux/mlx.h"
+#include <stdint.h>
 
 typedef struct s_mlx
 {

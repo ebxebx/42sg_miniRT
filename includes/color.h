@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/01 20:42:58 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/06 15:01:32 by zchoo            ###   ########.fr       */
+/*   Created: 2026/06/06 15:00:15 by zchoo             #+#    #+#             */
+/*   Updated: 2026/06/06 15:01:18 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef COLOR_H
+# define COLOR_H
 
-# include "vec3.h"
-# include "color.h"
-# include <math.h>
-
-typedef struct s_ray
+typedef struct s_color
 {
-	/* camera pos, or hit point for shadow rays */
-	t_vec3	origin;
-
-	/* MUST always be length 1.0 — normalise before storing */
-	t_vec3	direction;
-}			t_ray;
-/* a point on the ray = origin + t * direction */
-
-t_ray		ray_init(t_vec3 origin, t_vec3 direction);
-t_color		ray_color(t_ray r);
+	double	r;
+	double	g;
+	double	b;
+}			t_color;
 
 #endif

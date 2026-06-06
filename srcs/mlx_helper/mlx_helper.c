@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 17:35:46 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/03 18:36:07 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 18:23:22 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@ void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 
 	dst = mlx->addr + (y * mlx->line_len + x * (mlx->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+
+uint32_t	pack_rgb(int r, int g, int b)
+{
+	if (r < 0)
+		r = 0;
+	if (r > 255)
+		r = 255;
+	if (g < 0)
+		g = 0;
+	if (g > 255)
+		g = 255;
+	if (b < 0)
+		b = 0;
+	if (b > 255)
+		b = 255;
+	return (((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b);
 }
 
 void	color_map_1(t_mlx *mlx, int w, int h)
@@ -38,6 +55,7 @@ void	color_map_1(t_mlx *mlx, int w, int h)
 			my_mlx_pixel_put(mlx, x, y, color);
 		}
 	}
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 
 void	color_map_2(t_mlx *mlx, unsigned char *data, int bpp, int sl, int w,

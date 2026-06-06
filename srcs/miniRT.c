@@ -6,11 +6,13 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 19:06:18 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/03 19:13:46 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 18:24:14 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+void	ray_test(t_mlx *mlx);
 
 static void	check_args(int argc, char **argv)
 {
@@ -35,7 +37,6 @@ void	render_scene(t_scene *scene)
 	ft_printf("Rendering scene...\n");
 	// Render the scene using the mlx functions
 	color_map_1(scene->mlx, WIDTH, HEIGHT);
-	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img, 0, 0);
 }
 
 void	save_image(const char *filename, t_scene *scene)
@@ -119,13 +120,17 @@ int	key_hook(int keycode, void *param)
 	ft_printf("Key pressed: %d/0x%x\n", keycode, keycode);
 	if (keycode == XK_Escape)
 		close_window((t_mlx *)param);
+	if (keycode == XK_t)
+		ray_test((t_mlx *)param);
+	if (keycode == XK_c)
+			color_map_1((t_mlx *)param, WIDTH, HEIGHT);
 	return (0);
 }
 
 int	expose_hook(void* data)
 {
-	render_scene((t_scene *)data);
 	ft_printf("Expose hook triggered\n");
+	render_scene((t_scene *)data);
 	return (0);
 }
 
@@ -137,6 +142,7 @@ int	loop_hook(t_mlx *mlx)
 
 void	ray_test(t_mlx *mlx)
 {
+	ft_printf("Ray test triggered\n");
     // Image
     int image_width = WIDTH;
 
@@ -147,7 +153,7 @@ void	ray_test(t_mlx *mlx)
     // Camera
     double focal_length = 1.0;
     double viewport_height = 2.0;
-    double viewport_width = viewport_height * (double(image_width)/image_height);
+    double viewport_width = viewport_height * ((double)image_width / image_height);
     t_vec3 camera_center = vec3_zero();
 
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
@@ -165,17 +171,17 @@ void	ray_test(t_mlx *mlx)
     t_vec3 pixel00_loc = vec3_add(viewport_upper_left, vec3_scale(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
 
     // Render
-
-    for (int j = 0; j < image_height; j++) {
+	for (int j = 0; j < image_height; j++) {
         for (int i = 0; i < image_width; i++) {
             t_vec3 pixel_center = vec3_add(pixel00_loc, vec3_add(vec3_scale(pixel_delta_u, i), vec3_scale(pixel_delta_v, j)));
             t_vec3 ray_direction = vec3_sub(pixel_center, camera_center);
             t_ray r = ray_init(camera_center, ray_direction);
 
             t_color pixel_color = ray_color(r);
-
+			my_mlx_pixel_put(mlx, i, j, (int)(255.999 * pixel_color.r) << 16 | (int)(255.999 * pixel_color.g) << 8 | (int)(255.999 * pixel_color.b));
         }
     }
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 
 int	main(int argc, char **argv)
@@ -200,11 +206,11 @@ int	main(int argc, char **argv)
 	init_mlx(scene.mlx);
 	mlx_key_hook(scene.mlx->win, key_hook, scene.mlx);
 	mlx_hook(scene.mlx->win, 17, 0, close_window, scene.mlx);
-	mlx_expose_hook(scene.mlx->win, expose_hook, scene.mlx);
+	mlx_expose_hook(scene.mlx->win, expose_hook, &scene);
 	mlx_string_put(scene.mlx->mlx, scene.mlx->win, 10, 10, 0xFFFFFF, "Hello, miniRT!");
 	mlx_loop_hook(scene.mlx->mlx, loop_hook, scene.mlx);
 	
-	render_scene(&scene);
+	// render_scene(&scene);
 	
 	mlx_loop(scene.mlx->mlx);
 	scene_free(&scene);
