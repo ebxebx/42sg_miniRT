@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 20:43:45 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/06 19:04:35 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 19:10:50 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ double lerp(double start, double end, double t)
     return (start + t * (end - start));
 }
 
+/* 
+// origin
 double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
     t_vec3 oc = vec3_sub(r.origin, center);
     double a = vec3_dot(r.direction, r.direction);
@@ -47,7 +49,22 @@ double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
     if (discriminant < 0)
         return -1.0;
 	 else
-        return (-b - sqrt(discriminant)) / (2.0*a);
+        return ((-b - sqrt(discriminant)) / (2.0*a));
+}
+*/
+
+// simplified version
+double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
+    t_vec3 oc = vec3_sub(r.origin, center);
+    double a = vec3_dot(r.direction, r.direction);
+	double half_b = vec3_dot(oc, r.direction);
+    double c = vec3_dot(oc, oc) - radius*radius;
+	double discriminant = half_b*half_b - a*c;
+
+    if (discriminant < 0)
+        return -1.0;
+	 else
+        return ((-half_b - sqrt(discriminant)) / a);
 }
 
 t_vec3 ray_at(t_ray r, double t)
