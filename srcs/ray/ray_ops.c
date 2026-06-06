@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 20:43:45 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/06 18:48:34 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/06 18:55:44 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,21 @@ double lerp(double start, double end, double t)
     return (start + t * (end - start));
 }
 
+int hit_sphere(const t_vec3 center, double radius, const t_ray r) {
+    t_vec3 oc = vec3_sub(r.origin, center);
+    double a = vec3_dot(r.direction, r.direction);
+    double b = 2.0 * vec3_dot(oc, r.direction);
+    double c = vec3_dot(oc, oc) - radius*radius;
+    double discriminant = b*b - 4*a*c;
+    return (discriminant >= 0);
+}
+
 t_color	ray_color(t_ray r)
 {
+    if (hit_sphere(vec3_init(0, 0, -1.0), 0.5, r)) {
+        return (t_color){1.0, 0, 0};
+    }
+	
     t_vec3 unit_direction = vec3_norm(r.direction);
     double a = 0.5 * (unit_direction.y + 1.0);
 	t_color col = {
