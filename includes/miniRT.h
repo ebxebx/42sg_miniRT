@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/06 15:00:13 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/07 16:22:40 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@
 // # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
 # define ASPECT 1.77778
 # define FOV_MAX 180
+
+# define PI 3.1415926535897932385
+
+// utility functions
+inline double degrees_to_radians(double degrees) {
+    return degrees * PI / 180.0;
+}
+
+inline double radians_to_degrees(double radians) {
+    return radians * 180.0 / PI;
+}
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */

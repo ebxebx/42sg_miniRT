@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 20:43:45 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/07 13:00:38 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/07 13:58:40 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
 */
 
 // simplified version
-double hit_sphere(const t_sp sp, const t_ray r) {
+double hit_sphere_test(const t_sp sp, const t_ray r) {
     t_vec3 oc = vec3_sub(r.origin, sp.centre);
     double a = vec3_dot(r.direction, r.direction);
 	double half_b = vec3_dot(oc, r.direction);
@@ -65,6 +65,33 @@ double hit_sphere(const t_sp sp, const t_ray r) {
         return -1.0;
 	 else
         return ((-half_b - sqrt(discriminant)) / a);
+}
+
+int hit_sphere(const t_sp sp, const t_ray_segment rs, t_hit *hit) {
+    t_vec3 oc = vec3_sub(rs.ray.origin, sp.centre);
+    double a = vec3_dot(rs.ray.direction, rs.ray.direction);
+	double half_b = vec3_dot(oc, rs.ray.direction);
+    double c = vec3_dot(oc, oc) - sp.radius * sp.radius;
+	double discriminant = half_b * half_b - a * c;
+
+    if (discriminant < 0)
+        return (0);
+    double sqrtd = sqrt(discriminant);
+
+    // Find the nearest root that lies in the acceptable range.
+    double root = (-half_b - sqrtd) / a;
+    if (root <= rs.t_min || root >= rs.t_max) {
+        root = (-half_b + sqrtd) / a;
+        if(root <= rs.t_min || root >= rs.t_max) {
+            return (0);
+        }
+    }
+
+    hit->t = root;
+    hit->point = ray_at(rs.ray, hit->t);
+    hit->normal = vec3_scale(vec3_sub(hit->point, sp.centre), 1.0 / sp.radius);
+
+    return (1);
 }
 
 t_vec3 ray_at(t_ray r, double t)
