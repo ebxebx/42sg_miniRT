@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 20:43:45 by zchoo             #+#    #+#             */
-/*   Updated: 2026/06/06 19:10:50 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/06/07 13:00:38 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
 */
 
 // simplified version
-double hit_sphere(const t_vec3 center, double radius, const t_ray r) {
-    t_vec3 oc = vec3_sub(r.origin, center);
+double hit_sphere(const t_sp sp, const t_ray r) {
+    t_vec3 oc = vec3_sub(r.origin, sp.centre);
     double a = vec3_dot(r.direction, r.direction);
 	double half_b = vec3_dot(oc, r.direction);
-    double c = vec3_dot(oc, oc) - radius*radius;
-	double discriminant = half_b*half_b - a*c;
+    double c = vec3_dot(oc, oc) - sp.radius * sp.radius;
+	double discriminant = half_b * half_b - a * c;
 
     if (discriminant < 0)
         return -1.0;
@@ -74,7 +74,11 @@ t_vec3 ray_at(t_ray r, double t)
 
 t_color	ray_color(t_ray r)
 {
-	double t = hit_sphere(vec3_init(0, 0, -1), 0.5, r);
+    t_sp sp = {
+        .centre = vec3_init(0, 0, -1),
+        .radius = 0.5
+    };
+	double t = hit_sphere(sp, r);
     if (t > 0.0) {
         t_vec3 N = vec3_norm(vec3_sub(ray_at(r, t), vec3_init(0, 0, -1)));
         return (t_color){
