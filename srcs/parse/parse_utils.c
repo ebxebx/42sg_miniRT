@@ -16,12 +16,20 @@
 static int	is_valid_double(const char *s)
 {
 	int	has_digit;
+	int	has_dot;
 
 	has_digit = 0;
+	has_dot = 0;
 	if (*s == '-' || *s == '+')
 		s++;
 	while (*s == '.' || ft_isdigit(*s))
 	{
+		if (*s == '.')
+		{
+			if (has_dot)
+				return (0);
+			has_dot = 1;
+		}
 		if (ft_isdigit(*s))
 			has_digit = 1;
 		s++;
@@ -34,9 +42,13 @@ static int	is_valid_double(const char *s)
 //-1 if s is NULL or not a valid number.
 int	parse_double(const char *s, double *out)
 {
+	char	*end;
+
 	if (!s || !is_valid_double(s))
 		return (-1);
-	*out = ft_atof(s);
+	*out = strtod(s, &end);
+	if (*end != '\0')
+		return (-1);
 	return (0);
 }
 

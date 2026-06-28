@@ -10,7 +10,8 @@ A 0.2 255,255,255
 #camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
 # fov x-axis only, y-axis follows aspect ratio,
 #The camera is 5 units behind the origin on the Z axis. It looks forward along the positive Z direction.
-C 0,0,-5 0,0,1 70
+# C 0,0,-15 0,0,1 70
+C 0,0,-15 0,0,0.5 70
 
 #L pos( , , ) brightness_ratio   RGB_col( , , )
 #In mandatory miniRT, the subject includes RGB for light, but it says this colour is unused in mandatory. So for mandatory, the important parts are usually:
@@ -29,4 +30,11 @@ sp 0,0,3 2 255,0,0
 pl 0,-2,0 0,1,0 100,100,100
 
 #cy   center( , , )   axis_vector( , , )   diameter   height   RGB_colour( , , )
-cy 2,0,3 0,1,0 1 4 0,0,255
+# cy 0,0,0 1,0,0 0.1 20 0,0,0
+# cy 0,0,0 0,1,0 0.1 20 0,0,0
+cy 0,0,0 0,1,0.5 0.1 20 0,0,0
+# cy 0,0,0 0,0,1 0.1 20 0,0,0
+
+cy 0,0,3 0,1,0 1 4 0,0,255
+cy 2,0,10 0,1,0 1 4 0,255,255
+# cy 5,0,0 0,1,0 1 4 0,100,255

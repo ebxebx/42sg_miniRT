@@ -23,6 +23,11 @@ t_ray	ray_init(t_vec3 origin, t_vec3 direction)
 	return (r);
 }
 
+t_vec3	ray_at(t_ray r, double t)
+{
+	return (vec3_add(r.origin, vec3_scale(r.direction, t)));
+}
+
 // equivalent to (1 - t) * start + t * end
 // start - (start * t) + (end * t)
 // start + (end * t) - (start * t)
@@ -94,18 +99,13 @@ int hit_sphere(const t_sp sp, const t_ray_segment rs, t_hit *hit) {
     return (1);
 }
 
-t_vec3 ray_at(t_ray r, double t)
-{
-	return vec3_add(r.origin, vec3_scale(r.direction, t));
-}
-
 t_color	ray_color(t_ray r)
 {
     t_sp sp = {
         .centre = vec3_init(0, 0, -1),
         .radius = 0.5
     };
-	double t = hit_sphere(sp, r);
+	double t = hit_sphere_test(sp, r);
     if (t > 0.0) {
         t_vec3 N = vec3_norm(vec3_sub(ray_at(r, t), vec3_init(0, 0, -1)));
         return (t_color){
