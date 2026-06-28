@@ -20,6 +20,7 @@ SRCS = $(SRCS_DIR)/miniRT.c \
 	   $(SRCS_DIR)/vec3/vec3_helper.c \
 	   $(SRCS_DIR)/mlx_helper/mlx_helper.c \
 	   $(SRCS_DIR)/ray/ray_ops.c \
+	   $(SRCS_DIR)/debug/axes.c \
        $(SRCS_DIR)/parse/parse_and_free_scene.c \
        $(SRCS_DIR)/parse/parse_line.c \
        $(SRCS_DIR)/parse/parse_elements.c \
@@ -75,6 +76,10 @@ run: $(NAME)
 run2: $(NAME)
 	./$(NAME) $(ARGS2)
 
+#build and run inside the Docker/Linux container (with XQuartz display forwarding)
+docker-run:
+	./docker/run.sh bash -c "make && ./miniRT $(ARGS)"
+
 #run with valgrind and run with args
 testv: fclean
 	$(MAKE) CFLAGS="$(CFLAGS) -g"
@@ -100,4 +105,4 @@ fclean: clean
 re: fclean all
 
 # Phony targets (commands and not files)
-.PHONY: all clean fclean re testv run run2 
+.PHONY: all clean fclean re testv run run2 docker-run
