@@ -18,8 +18,9 @@
 # include "../minilibx-linux/mlx.h"
 # include "mlx_helper.h"
 # include "parse.h"
+# include "axes.h"
+# include "camera.h"
 # include "ray.h"
-# include "color.h"
 # include "vec3.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
@@ -35,11 +36,11 @@
 # define PI 3.1415926535897932385
 
 // utility functions
-inline double degrees_to_radians(double degrees) {
+static inline double degrees_to_radians(double degrees) {
     return degrees * PI / 180.0;
 }
 
-inline double radians_to_degrees(double radians) {
+static inline double radians_to_degrees(double radians) {
     return radians * 180.0 / PI;
 }
 
@@ -151,6 +152,10 @@ typedef struct s_scene
 
 	/* linked list of all shapes */
 	t_object		*objects;
+
+	/* debug overlay — X/Y/Z axis lines, toggled with the 'A' key */
+	t_object		*axes;
+	int				show_axes;
 
 	t_mlx			*mlx;
 }					t_scene;

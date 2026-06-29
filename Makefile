@@ -21,11 +21,13 @@ SRCS = $(SRCS_DIR)/miniRT.c \
 	   $(SRCS_DIR)/mlx_helper/mlx_helper.c \
 	   $(SRCS_DIR)/ray/ray_ops.c \
 	   $(SRCS_DIR)/debug/axes.c \
+	   $(SRCS_DIR)/camera/camera_rotate.c \
        $(SRCS_DIR)/parse/parse_and_free_scene.c \
        $(SRCS_DIR)/parse/parse_line.c \
        $(SRCS_DIR)/parse/parse_elements.c \
        $(SRCS_DIR)/parse/parse_light.c \
        $(SRCS_DIR)/parse/parse_shapes.c \
+       $(SRCS_DIR)/parse/parse_shapes2.c \
        $(SRCS_DIR)/parse/parse_utils.c \
        $(SRCS_DIR)/parse/parse_utils_split.c
 
@@ -78,7 +80,7 @@ run2: $(NAME)
 
 #build and run inside the Docker/Linux container (with XQuartz display forwarding)
 docker-run:
-	./docker/run.sh bash -c "make && ./miniRT $(ARGS)"
+	./docker/run.sh bash -c "make && ./miniRT $(ARGS2)"
 
 #run with valgrind and run with args
 testv: fclean

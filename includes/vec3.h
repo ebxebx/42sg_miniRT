@@ -28,14 +28,15 @@ typedef struct s_vec3
 // vec3_ops.c
 t_vec3		vec3_add(t_vec3 a, t_vec3 b);
 t_vec3		vec3_sub(t_vec3 a, t_vec3 b);
-t_vec3		vec3_scale(t_vec3 v, float s);
-float		vec3_dot(t_vec3 a, t_vec3 b);
+t_vec3		vec3_scale(t_vec3 v, double s);
+double		vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
 
 // vec3_ops2.c
 t_vec3		vec3_norm(t_vec3 v);
-float		vec3_len(t_vec3 v);
+double		vec3_len(t_vec3 v);
 t_vec3		vec3_neg(t_vec3 v);
+t_vec3		vec3_rotate(t_vec3 v, t_vec3 axis, double angle);
 
 // vec3_helper.c
 t_vec3		vec3_init(double x, double y, double z);

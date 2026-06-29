@@ -85,7 +85,7 @@ static int	parse_orient(const char *token, t_vec3 *dir)
 // and precomputes half_w = tan(fov/2) so ray generation needs no trig per pixel.
 // If dir is nearly parallel to world_up (0,1,0), the cross product degenerates
 // to a zero vector — we fall back to (0,0,1) as the reference up axis instead.
-static void	build_camera_axes(t_camera *cam)
+void	build_camera_axes(t_camera *cam)
 {
 	t_vec3	world_up;
 
@@ -93,7 +93,7 @@ static void	build_camera_axes(t_camera *cam)
 	world_up.y = 1;
 	world_up.z = 0;
 	/* camera pointing straight up or down — use z-axis as fallback */
-	if (fabsf(vec3_dot(cam->dir, world_up)) > 0.99f)
+	if (fabs(vec3_dot(cam->dir, world_up)) > 0.99)
 	{
 		world_up.y = 0;
 		world_up.z = 1;
@@ -123,9 +123,10 @@ int	parse_camera(char **tokens, t_scene *scene)
 	if (parse_orient(tokens[2], &scene->camera.dir) == -1)
 		return (1);
 	if (parse_double(tokens[3], &scene->camera.fov) == -1
-		|| !validate_range(scene->camera.fov, 0.0, 180.0))
+		|| !validate_range(scene->camera.fov, 0.0, 180.0)
+		|| !is_integer_value(scene->camera.fov))
 	{
-		ft_putstr_fd("Error: FOV must be between 0 and 180\n", 2);
+		ft_putstr_fd("Error: FOV must be an integer between 0 and 180\n", 2);
 		return (1);
 	}
 	build_camera_axes(&scene->camera);

@@ -13,6 +13,7 @@
 #include "miniRT.h"
 
 #define HIT_EPSILON 0.001
+#define ROTATE_STEP_DEG 5.0
 
 static void	check_args(int argc, char **argv)
 {
@@ -230,28 +231,74 @@ static int	hit_object(t_object *obj, t_ray_segment seg, t_hit *hit)
 	return (0);
 }
 
-static int	hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit)
+static int	hit_object_list(t_object *list, t_ray_segment *seg, t_hit *hit)
 {
-	t_object		*obj;
-	t_hit			temp;
-	t_ray_segment	seg;
-	int				found;
+	t_object	*obj;
+	t_hit		temp;
+	int			found;
 
 	found = 0;
-	obj = scene->objects;
-	seg.ray = ray;
-	seg.t_min = HIT_EPSILON;
-	seg.t_max = t_max;
+	obj = list;
 	while (obj)
 	{
-		if (hit_object(obj, seg, &temp))
+		if (hit_object(obj, *seg, &temp))
 		{
 			found = 1;
-			seg.t_max = temp.t;
+			seg->t_max = temp.t;
 			*hit = temp;
 		}
 		obj = obj->next;
 	}
+	return (found);
+}
+
+// if the ray origin sits inside this axis's own (thin) radius, it would
+// otherwise hit the inside wall point-blank and paint over the whole
+// frame — skip the test for that ray instead.
+static int	ray_inside_axis(t_object *axis, t_vec3 origin)
+{
+	t_vec3	oc;
+	t_vec3	oc_perp;
+
+	oc = vec3_sub(origin, axis->shape.cy.centre);
+	oc_perp = vec3_sub(oc, vec3_scale(axis->shape.cy.axis,
+				vec3_dot(oc, axis->shape.cy.axis)));
+	return (vec3_len(oc_perp) < axis->shape.cy.radius);
+}
+
+static int	hit_axes(t_object *list, t_ray_segment *seg, t_hit *hit)
+{
+	t_object	*obj;
+	t_hit		temp;
+	int			found;
+
+	found = 0;
+	obj = list;
+	while (obj)
+	{
+		if (!ray_inside_axis(obj, seg->ray.origin)
+			&& hit_object(obj, *seg, &temp))
+		{
+			found = 1;
+			seg->t_max = temp.t;
+			*hit = temp;
+		}
+		obj = obj->next;
+	}
+	return (found);
+}
+
+static int	hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit)
+{
+	t_ray_segment	seg;
+	int				found;
+
+	seg.ray = ray;
+	seg.t_min = HIT_EPSILON;
+	seg.t_max = t_max;
+	found = hit_object_list(scene->objects, &seg, hit);
+	if (scene->show_axes)
+		found |= hit_axes(scene->axes, &seg, hit);
 	return (found);
 }
 
@@ -378,6 +425,7 @@ int	close_window(t_scene *scene)
 		free_memory(scene->mlx);
 		scene->mlx = NULL;
 	}
+	free_axes(scene->axes);
 	scene_free(scene);
 	exit(0);
 	return (0);
@@ -385,8 +433,26 @@ int	close_window(t_scene *scene)
 
 int	key_hook(int keycode, void *param)
 {
+	t_scene	*scene;
+	double	step;
+
+	scene = (t_scene *)param;
 	if (keycode == XK_Escape)
-		close_window((t_scene *)param);
+		close_window(scene);
+	step = degrees_to_radians(ROTATE_STEP_DEG);
+	if (keycode == XK_a)
+		scene->show_axes = !scene->show_axes;
+	else if (keycode == XK_Left)
+		rotate_camera(&scene->camera, step, 0);
+	else if (keycode == XK_Right)
+		rotate_camera(&scene->camera, -step, 0);
+	else if (keycode == XK_Up)
+		rotate_camera(&scene->camera, 0, step);
+	else if (keycode == XK_Down)
+		rotate_camera(&scene->camera, 0, -step);
+	else
+		return (0);
+	render_scene(scene);
 	return (0);
 }
 
@@ -427,6 +493,7 @@ int	main(int argc, char **argv)
 		scene_free(&scene);
 		return (1);
 	}
+	init_axes(&scene);
 	mlx_key_hook(scene.mlx->win, key_hook, &scene);
 	mlx_hook(scene.mlx->win, 17, 0, close_window, &scene);
 	mlx_expose_hook(scene.mlx->win, expose_hook, &scene);

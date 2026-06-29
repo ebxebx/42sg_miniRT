@@ -14,7 +14,6 @@
 # define MLX_HELPER_H
 
 # include "../minilibx-linux/mlx.h"
-#include <stdint.h>
 
 typedef struct s_mlx
 {
@@ -28,9 +27,5 @@ typedef struct s_mlx
 }			t_mlx;
 
 void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
-
-void		color_map_1(t_mlx *mlx, int w, int h);
-void		color_map_2(t_mlx *mlx, unsigned char *data, int bpp, int sl, int w,
-				int h, int endian, int type);
 
 #endif

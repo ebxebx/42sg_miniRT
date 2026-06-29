@@ -24,7 +24,7 @@ t_vec3	vec3_dup(t_vec3 v)
 
 t_vec3	vec3_zero(void)
 {
-	return (vec3_init(0.0f, 0.0f, 0.0f));
+	return (vec3_init(0.0, 0.0, 0.0));
 }
 
 // Check if two doubles are approximately equal

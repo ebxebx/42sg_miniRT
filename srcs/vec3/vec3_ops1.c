@@ -22,14 +22,14 @@ t_vec3	vec3_sub(t_vec3 a, t_vec3 b)
 	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
 }
 
-t_vec3	vec3_scale(t_vec3 v, float s)
+t_vec3	vec3_scale(t_vec3 v, double s)
 {
 	return ((t_vec3){v.x * s, v.y * s, v.z * s});
 }
 
 // Compute the dot product of two vectors
 // a . b = (a.x * b.x + a.y * b.y + a.z * b.z)
-float	vec3_dot(t_vec3 a, t_vec3 b)
+double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }

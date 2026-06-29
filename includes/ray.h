@@ -13,7 +13,6 @@
 #ifndef RAY_H
 # define RAY_H
 
-# include "color.h"
 # include "vec3.h"
 # include <math.h>
 
@@ -36,6 +35,5 @@ typedef struct s_ray_segment
 
 t_ray		ray_init(t_vec3 origin, t_vec3 direction);
 t_vec3		ray_at(t_ray r, double t);
-t_color		ray_color(t_ray r);
 
 #endif
