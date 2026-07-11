@@ -1,0 +1,32 @@
+# ============================================================================
+# EVAL SHEET: "Multi-objects" — same object placed several times
+# ============================================================================
+# Requirement (verbatim): "Execute the same test, but ensure it's possible
+# to place the same object several times, for example two cylinders, two
+# spheres, and a plane." This checks the parser builds a real linked list
+# of objects (scene->objects) rather than e.g. overwriting a single slot
+# per shape type — two of the same tag ('sp', 'cy') must both survive.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+C 0,4,-16 0,-0.15,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L -6,8,-8 0.8 255,255,255
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+# One plane, used as a floor so every object above it is visually grounded
+# and shadow/occlusion between the duplicates is easy to read.
+pl 0,-2,0 0,1,0 120,120,120
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+# Two spheres, spaced apart on x so both are individually identifiable.
+sp -4,0,4 3 255,0,0
+sp 4,0,4 3 255,180,0
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+# Two cylinders, likewise spaced apart, both extending along y.
+cy -4,-2,-2 0,1,0 1.5 4 0,120,255
+cy 4,-2,-2 0,1,0 1.5 4 150,0,255

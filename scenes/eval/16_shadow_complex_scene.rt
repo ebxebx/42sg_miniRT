@@ -1,0 +1,38 @@
+# ============================================================================
+# EVAL SHEET: "Brightness 2/2" — complex scene with several shadows
+# ============================================================================
+# Requirement (verbatim): "Assemble a complex scene with several objects, as
+# shown in illustration V.6 page 10 of the subject. Shadows must be properly
+# displayed without glitching."
+# This is a superset of 15_shadow_sphere_on_plane.rt: several objects of
+# different types (sphere, cylinder, plane) sharing one floor and one light,
+# each casting its own shadow, with some shadows overlapping. That overlap
+# is the part a naive "closest object to the light, ignoring everything
+# else in between" shadow-ray implementation tends to get wrong.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.15 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Pulled back, up, and to the side so the floor plane, every object, and
+# all of their shadows are simultaneously in frame.
+C 8,7,-16 -0.35,-0.25,0.85 65
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+# One light, raised and offset so shadows fall at a visible slant across the
+# floor (a purely vertical light would hide each shadow directly under its
+# own object, same problem as the single-sphere test).
+L -6,10,-4 0.8 255,255,255
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+# Shared floor every object below sits on and casts a shadow onto.
+pl 0,-2,0 0,1,0 200,200,200
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+sp -4,0,2 4 255,0,0
+sp 3,-0.5,6 3 0,150,80
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+# Positioned so its shadow overlaps one of the spheres' shadows on the
+# floor — the overlap region is what actually stresses shadow-ray logic.
+cy 0,-2,-2 0,1,0 1.5 5 0,80,255

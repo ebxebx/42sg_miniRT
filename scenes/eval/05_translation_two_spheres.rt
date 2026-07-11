@@ -1,0 +1,36 @@
+# ============================================================================
+# EVAL SHEET: "Translations and rotations" — sphere translation test
+# ============================================================================
+# Requirement (verbatim): "Place two spheres at the coordinates {0, 0, 0},
+# with the camera facing those spheres. Then apply a translation on one of
+# the two spheres oriented in a direction parallel to the camera's, at a
+# greater distance than the sphere's diameter, and display the rendered
+# image. Both spheres should be visible and displayed without glitching."
+#
+# Both spheres conceptually start coincident at {0,0,0}; sphere B below is
+# shown AFTER its translation. The translation vector (0,0,6) is parallel to
+# the camera's direction (0,0,1) and its length (6) exceeds the diameter (4),
+# matching the requirement exactly.
+#
+# The camera is offset off the sphere-sphere axis (x=3, y=1 instead of 0,0).
+# If the camera sat exactly on that axis, sphere A (closer, same radius)
+# would subtend a *larger* angle than sphere B (farther) and fully eclipse
+# it — that would fail "both spheres visible" even though the translation
+# math is correct. Offsetting the camera keeps both spheres in frame at
+# distinct screen positions without touching the translation itself.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+C 3,1,-10 0,0,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L -5,5,-5 0.8 255,255,255
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+# Sphere A: original position {0,0,0}, untouched.
+sp 0,0,0 4 255,0,0
+# Sphere B: same sphere, translated by (0,0,6) — parallel to camera dir,
+# distance 6 > diameter 4.
+sp 0,0,6 4 0,150,255

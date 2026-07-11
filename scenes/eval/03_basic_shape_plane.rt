@@ -1,0 +1,23 @@
+# ============================================================================
+# EVAL SHEET: "The Basic Shapes" — plane test
+# ============================================================================
+# Requirement (verbatim): "Place a plane with a 'z' value of zero. With the
+# camera facing the plane, display the rendered image. The plane should be
+# visible and displayed without glitching."
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Camera on -z looking toward +z, so it directly faces the z=0 plane in
+# front of it.
+C 0,0,-10 0,0,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L -5,5,-5 0.8 255,255,255
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+# point_on_pl has z = 0, exactly as the eval sheet asks for.
+# normal (0,0,-1) faces back toward the camera (which sits at z=-10), so
+# the lit face of the plane is the one the camera actually sees.
+pl 0,0,0 0,0,-1 100,100,100

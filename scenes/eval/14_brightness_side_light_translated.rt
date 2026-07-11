@@ -1,0 +1,36 @@
+# ============================================================================
+# EVAL SHEET: "Brightness 1/2" — side-lit sphere AFTER translation
+# ============================================================================
+# Requirement (verbatim): "Place a sphere at some coordinates resulting from
+# a translation, the camera facing the sphere, and place a spot left or
+# right of the camera but positioned in such a way that the sphere will be
+# lit sideways. Display the rendered image. The sphere should be visible,
+# properly illuminated and displayed without glitching. Properly means that
+# the halo of light should be computed after translation, not before."
+#
+# The bug this test is designed to catch: computing the diffuse/specular
+# highlight using the sphere's pre-translation centre (e.g. {0,0,0}) instead
+# of its actual (translated) centre. Here the sphere is moved well off the
+# world origin — to {6,2,5} — so if lighting were mistakenly computed
+# against {0,0,0} the highlight would land on the wrong side of the visible
+# sphere entirely, which is easy to spot.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Camera is re-aimed to keep facing the sphere at its new location: same x/y
+# as the sphere (6,2), pulled back on z.
+C 6,2,-10 0,0,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+# Light sits to the left of the camera/sphere (x=0 vs. sphere's x=6) and
+# near the sphere's own depth (z=3, close to the sphere's z=5), so it lights
+# the translated sphere from the side — proving the halo tracks the
+# sphere's real (post-translation) position.
+L 0,2,3 0.8 255,255,255
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+# Sphere centre {6,2,5} — the "coordinates resulting from a translation"
+# the eval sheet asks for.
+sp 6,2,5 4 255,0,0

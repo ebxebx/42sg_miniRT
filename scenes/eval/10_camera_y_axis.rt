@@ -1,0 +1,33 @@
+# ============================================================================
+# EVAL SHEET: "Camera's position and direction" — camera on the y-axis
+# ============================================================================
+# Requirement (verbatim): "Generate a random scene and place the camera
+# extending along the y-axis, pointed towards the coordinates {0, 0, 0}, and
+# display the rendered image. The scene must be visible and displayed
+# without glitching."
+# This is the classic "straight down/up" camera edge case: the forward
+# direction is parallel to the world's usual "up" reference (0,1,0), so a
+# naive right = cross(dir, world_up) degenerates to a zero vector. This is
+# exactly what build_camera_axes()'s >0.99 dot-product fallback (switching
+# the reference axis to 0,0,1) exists to handle — this scene is what
+# exercises that code path.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Position purely on the y-axis (x=0, z=0); direction (0,-1,0) looks
+# straight down at the origin.
+C 0,16,0 0,-1,0 60
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L 6,8,-6 0.8 255,255,255
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+sp -1,0,1 3 255,60,60
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+pl 0,-3,0 0,1,0 130,130,130
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+cy 2,-1,-1 0,1,0 1.5 4 60,140,255

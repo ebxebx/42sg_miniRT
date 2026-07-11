@@ -1,0 +1,24 @@
+# ============================================================================
+# EVAL SHEET: "The Basic Shapes" — cylinder test
+# ============================================================================
+# Requirement (verbatim): "Place a cylinder extending along the y-axis. With
+# the camera facing the cylinder, display the rendered image. The cylinder
+# should be visible and displayed without glitching."
+# Compare against 06_rotation_cylinder_90z.rt, which shows the same cylinder
+# after a 90° rotation around z — this file is the "before" state.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+C 0,0,-10 0,0,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L -5,5,-5 0.8 255,255,255
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+# axis (0,1,0) → the cylinder's long axis runs along the y-axis, exactly as
+# required. Diameter 2, height 6 gives it an unambiguous barrel shape (as
+# opposed to something disc-like) so both caps and the round side are
+# visible and testable in one frame.
+cy 0,0,0 0,1,0 2 6 0,150,255

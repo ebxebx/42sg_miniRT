@@ -1,0 +1,32 @@
+# ============================================================================
+# EVAL SHEET: "Translations and rotations" — cylinder rotation test
+# ============================================================================
+# Requirement (verbatim): "Place a cylinder extending along the y-axis, the
+# camera facing the cylinder. Then apply a 90° rotation (PI/2 radian) along
+# the z-axis and display the rendered image. The cylinder should be visible
+# and displayed without glitching."
+#
+# This file is the "after" state. The "before" state is
+# 04_basic_shape_cylinder.rt (same position, same camera, axis = 0,1,0).
+#
+# Rotating the axis vector (0,1,0) by 90° about z uses the standard
+# rotation-about-z matrix (x,y,z) -> (x*cosθ - y*sinθ, x*sinθ + y*cosθ, z).
+# At θ=90°, cosθ=0, sinθ=1, so (0,1,0) -> (-1,0,0): a vertical cylinder
+# rotated 90° around z lands flat, extending along the x-axis instead.
+# Centre and camera are left untouched so the ONLY thing that changed
+# between this file and 04_basic_shape_cylinder.rt is the axis vector —
+# any glitch here is isolated to the rotation itself.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+C 0,0,-10 0,0,1 70
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L -5,5,-5 0.8 255,255,255
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+# axis (-1,0,0): the 0,1,0 axis from the basic-shape test, rotated 90°
+# around z.
+cy 0,0,0 -1,0,0 2 6 0,150,255

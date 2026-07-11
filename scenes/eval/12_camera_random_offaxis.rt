@@ -1,0 +1,31 @@
+# ============================================================================
+# EVAL SHEET: "Camera's position and direction" — camera off any axis/diagonal
+# ============================================================================
+# Requirement (verbatim): "Generate a random scene and place the camera at a
+# random location that is not on any axis or a diagonal, pointed towards the
+# coordinates {0, 0, 0}, and display the rendered image. The scene must be
+# visible and displayed without glitching."
+# Position (7,4,-11) has all three coordinates non-zero (not on any axis)
+# and all three different in magnitude (7 ≠ 4 ≠ 11, so it's not on a
+# diagonal like (k,k,k) either) — this is the general case every other
+# camera test in this file deliberately avoids.
+
+#ambient strength/ratio RGB_col( , , )
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Direction is (pos -> origin) normalised: (-7,-4,11)/|(-7,-4,11)| ≈
+# (-0.51,-0.29,0.81).
+C 7,4,-11 -0.51,-0.29,0.81 60
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+L 6,8,-6 0.8 255,255,255
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+sp -1,0,1 3 255,60,60
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+pl 0,-3,0 0,1,0 130,130,130
+
+#cy center( , , ) axis_vector( , , ) diameter height RGB_colour( , , )
+cy 2,-1,-1 0,1,0 1.5 4 60,140,255

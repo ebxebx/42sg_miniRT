@@ -1,0 +1,34 @@
+# ============================================================================
+# EVAL SHEET: "Brightness 2/2" — sphere shadow cast on a plane
+# ============================================================================
+# Requirement (verbatim): "Place a vertical spot, a sphere, and a plane. The
+# spot should illuminate the sphere to create a sphere shadow on the plane.
+# Put the camera aside so we can see the sphere, the plane and the sphere's
+# shadow on the plane. The shadow must be properly displayed without
+# glitching."
+
+#ambient strength/ratio RGB_col( , , )
+# Ambient is kept low (not 0) so the shadow reads as clearly darker than
+# its surroundings without going fully black — a shadow test needs contrast
+# to be visible, not absolute darkness.
+A 0.15 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# Camera is placed "aside" — off to the side and slightly above — rather
+# than head-on, specifically so the shadow falling on the floor plane is in
+# frame alongside the sphere that casts it. A camera looking straight down
+# the light's axis would see the shadow hidden directly under the sphere.
+C 10,5,-10 -0.6,-0.3,0.6 60
+
+#L pos( , , ) brightness_ratio RGB_col( , , )
+# Vertical spot: directly above the sphere (same x,z as the sphere, high y)
+# so the shadow it casts falls straight down onto the floor plane below.
+L 0,10,0 0.8 255,255,255
+
+#sp sphere_center( , , ) diameter RGB_colour( , , )
+sp 0,0,0 4 255,0,0
+
+#pl point_on_pl( , , ) normal_vector( , , ) RGB_colour( , , )
+# Floor sits below the sphere (y=-2, sphere's bottom is at y=-2 too, diameter
+# 4 / radius 2), normal straight up, so the shadow lands cleanly on it.
+pl 0,-2,0 0,1,0 200,200,200
