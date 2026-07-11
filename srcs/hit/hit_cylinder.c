@@ -1,0 +1,101 @@
+#include "miniRT.h"
+
+static int	set_cylinder_side_hit(t_object *obj, t_ray_segment seg,
+		double root, t_hit *hit)
+{
+	double	axis_pos;
+	t_vec3	center_to_hit;
+
+	if (root <= seg.t_min || root >= seg.t_max)
+		return (0);
+	hit->point = ray_at(seg.ray, root);
+	center_to_hit = vec3_sub(hit->point, obj->shape.cy.centre);
+	axis_pos = vec3_dot(center_to_hit, obj->shape.cy.axis);
+	if (fabs(axis_pos) > obj->shape.cy.height / 2.0)
+		return (0);
+	hit->t = root;
+	hit->normal = vec3_norm(vec3_sub(center_to_hit,
+				vec3_scale(obj->shape.cy.axis, axis_pos)));
+	hit->obj = obj;
+	face_normal(seg.ray, hit);
+	return (1);
+}
+
+static int	hit_cylinder_side(t_object *obj, t_ray_segment seg, t_hit *hit)
+{
+	t_vec3	oc;
+	t_vec3	d_perp;
+	t_vec3	oc_perp;
+	double	quad[3];
+	double	discriminant;
+	double	root;
+
+	oc = vec3_sub(seg.ray.origin, obj->shape.cy.centre);
+	d_perp = vec3_sub(seg.ray.direction, vec3_scale(obj->shape.cy.axis,
+				vec3_dot(seg.ray.direction, obj->shape.cy.axis)));
+	oc_perp = vec3_sub(oc, vec3_scale(obj->shape.cy.axis,
+				vec3_dot(oc, obj->shape.cy.axis)));
+	quad[0] = vec3_dot(d_perp, d_perp);
+	quad[1] = vec3_dot(d_perp, oc_perp);
+	quad[2] = vec3_dot(oc_perp, oc_perp)
+		- obj->shape.cy.radius * obj->shape.cy.radius;
+	discriminant = quad[1] * quad[1] - quad[0] * quad[2];
+	if (fabs(quad[0]) < HIT_EPSILON || discriminant < 0.0)
+		return (0);
+	root = (-quad[1] - sqrt(discriminant)) / quad[0];
+	if (set_cylinder_side_hit(obj, seg, root, hit))
+		return (1);
+	root = (-quad[1] + sqrt(discriminant)) / quad[0];
+	return (set_cylinder_side_hit(obj, seg, root, hit));
+}
+
+static int	test_cylinder_cap(t_object *obj, t_ray_segment seg,
+		double offset, t_hit *hit)
+{
+	t_vec3	cap_center;
+	double	denom;
+	double	root;
+
+	cap_center = vec3_add(obj->shape.cy.centre,
+			vec3_scale(obj->shape.cy.axis, offset));
+	denom = vec3_dot(seg.ray.direction, obj->shape.cy.axis);
+	if (fabs(denom) < HIT_EPSILON)
+		return (0);
+	root = vec3_dot(vec3_sub(cap_center, seg.ray.origin),
+			obj->shape.cy.axis) / denom;
+	if (root <= seg.t_min || root >= seg.t_max)
+		return (0);
+	if (vec3_len(vec3_sub(ray_at(seg.ray, root), cap_center))
+		> obj->shape.cy.radius)
+		return (0);
+	hit->t = root;
+	hit->point = ray_at(seg.ray, root);
+	hit->normal = obj->shape.cy.axis;
+	if (offset < 0.0)
+		hit->normal = vec3_neg(hit->normal);
+	hit->obj = obj;
+	face_normal(seg.ray, hit);
+	return (1);
+}
+
+int	hit_cylinder_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
+{
+	t_hit	temp;
+	int		found;
+
+	found = hit_cylinder_side(obj, seg, hit);
+	if (found)
+		seg.t_max = hit->t;
+	if (test_cylinder_cap(obj, seg, obj->shape.cy.height / 2.0, &temp))
+	{
+		*hit = temp;
+		found = 1;
+		seg.t_max = hit->t;
+	}
+	if (test_cylinder_cap(obj, seg, -obj->shape.cy.height / 2.0, &temp))
+	{
+		*hit = temp;
+		found = 1;
+	}
+	return (found);
+}

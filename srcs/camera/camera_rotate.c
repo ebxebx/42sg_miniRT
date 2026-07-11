@@ -13,3 +13,13 @@ void	rotate_camera(t_camera *cam, double yaw, double pitch)
 	cam->dir = vec3_norm(vec3_rotate(cam->dir, world_up, yaw));
 	build_camera_axes(cam);
 }
+
+double	degrees_to_radians(double degrees)
+{
+	return (degrees * M_PI / 180.0);
+}
+
+double	radians_to_degrees(double radians)
+{
+	return (radians * 180.0 / M_PI);
+}

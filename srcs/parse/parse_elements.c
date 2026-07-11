@@ -12,7 +12,9 @@
 
 #include "miniRT.h"
 
-// Checks A, C, L each appeared exactly once. Returns 1 and prints the specific error if not.
+// Checks A and C appeared exactly once, and L appeared at least once
+// (several light sources are valid — their contributions are summed).
+// Returns 1 and prints the specific error if not.
 int	check_scene_counts(t_scene *scene)
 {
 	if (scene->has_ambient != 1)
@@ -31,12 +33,9 @@ int	check_scene_counts(t_scene *scene)
 			ft_putstr_fd("Error: duplicate camera (C)\n", 2);
 		return (1);
 	}
-	if (scene->has_light != 1)
+	if (scene->has_light < 1)
 	{
-		if (scene->has_light == 0)
-			ft_putstr_fd("Error: missing light (L)\n", 2);
-		else
-			ft_putstr_fd("Error: duplicate light (L)\n", 2);
+		ft_putstr_fd("Error: missing light (L)\n", 2);
 		return (1);
 	}
 	return (0);
@@ -72,9 +71,11 @@ static int	parse_orient(const char *token, t_vec3 *dir)
 	}
 	if (!validate_range(dir->x, -1.0, 1.0)
 		|| !validate_range(dir->y, -1.0, 1.0)
-		|| !validate_range(dir->z, -1.0, 1.0))
+		|| !validate_range(dir->z, -1.0, 1.0)
+		|| double_equal(vec3_len(*dir), 0.0))
 	{
-		ft_putstr_fd("Error: orientation components must be in [-1.0, 1.0]\n", 2);
+		ft_putstr_fd("Error: orientation components must be in [-1.0, 1.0]", 2);
+		ft_putendl_fd(" and not all zero", 2);
 		return (-1);
 	}
 	*dir = vec3_norm(*dir);

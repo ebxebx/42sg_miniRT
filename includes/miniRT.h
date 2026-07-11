@@ -22,6 +22,7 @@
 # include "camera.h"
 # include "ray.h"
 # include "vec3.h"
+# include "render.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 # include <errno.h>
@@ -32,17 +33,6 @@
 // # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
 # define ASPECT 1.77778
 # define FOV_MAX 180
-
-# define PI 3.1415926535897932385
-
-// utility functions
-static inline double degrees_to_radians(double degrees) {
-    return degrees * PI / 180.0;
-}
-
-static inline double radians_to_degrees(double radians) {
-    return radians * 180.0 / PI;
-}
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */
@@ -146,6 +136,9 @@ typedef struct s_scene
 
 	t_ambient		ambient;
 	t_camera		camera;
+
+	/* snapshot of camera as parsed — restored by the 'R' reset hook */
+	t_camera		camera_init;
 
 	/* linked list — bonus multi-lights works free */
 	t_light			*lights;

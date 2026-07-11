@@ -16,6 +16,14 @@ SRCS_DIR = srcs
 
 # Source files
 SRCS = $(SRCS_DIR)/miniRT.c \
+       $(SRCS_DIR)/hit/hit_sphere.c \
+       $(SRCS_DIR)/hit/hit_plane.c \
+       $(SRCS_DIR)/hit/hit_cylinder.c \
+       $(SRCS_DIR)/hit/hit_scene.c \
+       $(SRCS_DIR)/render/color_utils.c \
+       $(SRCS_DIR)/render/shading.c \
+       $(SRCS_DIR)/render/render.c \
+       $(SRCS_DIR)/render/mlx_hooks.c \
        $(SRCS_DIR)/vec3/vec3_ops1.c $(SRCS_DIR)/vec3/vec3_ops2.c \
 	   $(SRCS_DIR)/vec3/vec3_helper.c \
 	   $(SRCS_DIR)/mlx_helper/mlx_helper.c \
@@ -29,6 +37,7 @@ SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/parse/parse_shapes.c \
        $(SRCS_DIR)/parse/parse_shapes2.c \
        $(SRCS_DIR)/parse/parse_utils.c \
+       $(SRCS_DIR)/parse/parse_utils2.c \
        $(SRCS_DIR)/parse/parse_utils_split.c
 
 # Object files

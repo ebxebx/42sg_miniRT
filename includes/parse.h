@@ -53,9 +53,11 @@ char	**split_line(const char *line);
 
 // parse_utils.c
 int		parse_double(const char *s, double *out);
-int		validate_range(double value, double min, double max);
-int		is_integer_value(double value);
 int		parse_vec3(const char *token, t_vec3 *out);
 int		parse_rgb(const char *token, t_vec3 *out);
+
+// parse_utils2.c
+int		validate_range(double value, double min, double max);
+int		is_integer_value(double value);
 
 #endif

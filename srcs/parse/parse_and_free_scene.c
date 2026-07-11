@@ -62,5 +62,6 @@ int	parse_scene(const char *filename, t_scene *scene)
 		return (-1);
 	if (check_scene_counts(scene))
 		return (-1);
+	scene->camera_init = scene->camera;
 	return (0);
 }
