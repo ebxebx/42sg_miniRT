@@ -61,10 +61,10 @@ typedef struct s_camera
 	/* forward, normalised */
 	t_vec3			dir;
 
-	/* cross(dir, world_up) — computed once at parse time */
+	/* cross(world_up, dir) — computed once at parse time */
 	t_vec3			right;
 
-	/* cross(right, dir)    — computed once at parse time */
+	/* cross(dir, right)    — computed once at parse time */
 	t_vec3			up;
 	double			fov;
 

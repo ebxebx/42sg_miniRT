@@ -99,8 +99,8 @@ void	build_camera_axes(t_camera *cam)
 		world_up.y = 0;
 		world_up.z = 1;
 	}
-	cam->right = vec3_norm(vec3_cross(cam->dir, world_up));
-	cam->up = vec3_cross(cam->right, cam->dir);
+	cam->right = vec3_norm(vec3_cross(world_up, cam->dir));
+	cam->up = vec3_cross(cam->dir, cam->right);
 	/* tan(fov_deg/2 * pi/180) simplifies to tan(fov_deg * pi/360) */
 	cam->half_w = tan(cam->fov * M_PI / 360.0);
 }
