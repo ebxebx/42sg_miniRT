@@ -62,6 +62,7 @@ int	close_window(t_scene *scene)
 		mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_display(scene->mlx->mlx);
+		free_memory(scene->mlx->mlx);
 		free_memory(scene->mlx);
 		scene->mlx = NULL;
 	}

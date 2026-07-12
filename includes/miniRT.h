@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/06/07 16:22:40 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/12 18:13:45 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@
 # include <errno.h>
 # include <math.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+// # define WIDTH 480
+// # define HEIGHT 270
+# define WIDTH 720
+# define HEIGHT 405
 // # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
 # define ASPECT 1.77778
 # define FOV_MAX 180

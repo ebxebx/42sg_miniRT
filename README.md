@@ -60,6 +60,7 @@ Rather than aiming for a full path tracer, the project focuses on the subset exp
 
 ### 🎮 Interactive controls
 - arrow keys rotate the camera around the scene
+- `J/L` pan left/right and `I/K` pan up/down
 - a reset key snaps the camera straight back to exactly what the `.rt` file described
 - a debug overlay can toggle three coloured X/Y/Z axis lines on and off, useful for getting your bearings in a new scene
 - full key list further down, under Usage examples

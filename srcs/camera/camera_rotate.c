@@ -1,5 +1,12 @@
 #include "miniRT.h"
 
+static void	print_camera_info(t_camera *cam)
+{
+	ft_printf("Camera position: (%f, %f, %f), direction: (%f, %f, %f)\n",
+		cam->pos.x, cam->pos.y, cam->pos.z, cam->dir.x, cam->dir.y,
+		cam->dir.z);
+}
+
 // pitch uses the camera's existing right axis (from the last frame) so it
 // stays valid even if dir is currently near-vertical; yaw uses world up so
 // the horizon stays level. build_camera_axes recomputes right/up/half_w
@@ -12,6 +19,14 @@ void	rotate_camera(t_camera *cam, double yaw, double pitch)
 	cam->dir = vec3_norm(vec3_rotate(cam->dir, cam->right, pitch));
 	cam->dir = vec3_norm(vec3_rotate(cam->dir, world_up, yaw));
 	build_camera_axes(cam);
+	print_camera_info(cam);
+}
+
+void	pan_camera(t_camera *cam, double horizontal, double vertical)
+{
+	cam->pos = vec3_add(cam->pos, vec3_scale(cam->right, horizontal));
+	cam->pos = vec3_add(cam->pos, vec3_scale(cam->up, vertical));
+	print_camera_info(cam);
 }
 
 double	degrees_to_radians(double degrees)

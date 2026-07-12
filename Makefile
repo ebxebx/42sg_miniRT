@@ -92,13 +92,13 @@ docker-run:
 	./docker/run.sh bash -c "make && ./miniRT $(ARGS2)"
 
 #run with valgrind and run with args
-testv: fclean
+testv: fclean $(NAME)
 	$(MAKE) CFLAGS="$(CFLAGS) -g"
-	-valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
 
-testv2: fclean
+testv2: fclean $(NAME)
 	$(MAKE) CFLAGS="$(CFLAGS) -g"
-	-valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS2)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS2)
 
 # Compile .c files to .o files and generate dependency files
 srcs/%.o: srcs/%.c
@@ -107,6 +107,8 @@ srcs/%.o: srcs/%.c
 # Remove object and dependency files
 clean:
 	rm -f $(OBJS) $(DEPS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
 
 # Remove program
 fclean: clean

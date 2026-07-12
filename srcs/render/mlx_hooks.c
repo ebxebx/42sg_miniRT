@@ -1,6 +1,7 @@
 #include "miniRT.h"
 
 #define ROTATE_STEP_DEG 5.0
+#define PAN_STEP 0.5
 
 int	key_hook(int keycode, void *param)
 {
@@ -21,6 +22,14 @@ int	key_hook(int keycode, void *param)
 		rotate_camera(&scene->camera, 0, step);
 	else if (keycode == XK_Down)
 		rotate_camera(&scene->camera, 0, -step);
+	else if (keycode == XK_j)
+		pan_camera(&scene->camera, -PAN_STEP, 0);
+	else if (keycode == XK_l)
+		pan_camera(&scene->camera, PAN_STEP, 0);
+	else if (keycode == XK_i)
+		pan_camera(&scene->camera, 0, PAN_STEP);
+	else if (keycode == XK_k)
+		pan_camera(&scene->camera, 0, -PAN_STEP);
 	else if (keycode == XK_r)
 		scene->camera = scene->camera_init;
 	else
