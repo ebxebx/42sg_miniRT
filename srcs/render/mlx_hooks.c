@@ -15,17 +15,17 @@ int	key_hook(int keycode, void *param)
 	if (keycode == XK_a)
 		scene->show_axes = !scene->show_axes;
 	else if (keycode == XK_Left)
-		rotate_camera(&scene->camera, step, 0);
-	else if (keycode == XK_Right)
 		rotate_camera(&scene->camera, -step, 0);
+	else if (keycode == XK_Right)
+		rotate_camera(&scene->camera, step, 0);
 	else if (keycode == XK_Up)
 		rotate_camera(&scene->camera, 0, -step);
 	else if (keycode == XK_Down)
 		rotate_camera(&scene->camera, 0, step);
 	else if (keycode == XK_j)
-		pan_camera(&scene->camera, PAN_STEP, 0);
-	else if (keycode == XK_l)
 		pan_camera(&scene->camera, -PAN_STEP, 0);
+	else if (keycode == XK_l)
+		pan_camera(&scene->camera, PAN_STEP, 0);
 	else if (keycode == XK_i)
 		pan_camera(&scene->camera, 0, PAN_STEP);
 	else if (keycode == XK_k)
