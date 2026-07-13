@@ -13,6 +13,7 @@
 
 #include "miniRT.h"
 
+// Free every node in the scene's linked list of lights
 static void	free_lights(t_light *head)
 {
 	t_light	*next;
@@ -25,6 +26,7 @@ static void	free_lights(t_light *head)
 	}
 }
 
+// Free every node in the scene's linked list of objects
 static void	free_objects(t_object *head)
 {
 	t_object	*next;
@@ -37,6 +39,7 @@ static void	free_objects(t_object *head)
 	}
 }
 
+// Free all heap-allocated scene data (objects and lights)
 void	scene_free(t_scene *scene)
 {
 	free_objects(scene->objects);

@@ -52,6 +52,7 @@ static const char	*fill_tokens(char **tokens, const char *line, int i)
 	return (line);
 }
 
+// Free a NULL-terminated array of strings, as produced by split_line
 void	free_tokens(char **arr)
 {
 	int	i;
@@ -62,6 +63,9 @@ void	free_tokens(char **arr)
 	free(arr);
 }
 
+// Split a line into a NULL-terminated array of whitespace-delimited
+// tokens (allocates the array up front using count_tokens, then fills
+// it in with fill_tokens)
 char	**split_line(const char *line)
 {
 	char		**tokens;

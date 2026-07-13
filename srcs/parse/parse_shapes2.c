@@ -12,6 +12,9 @@
 
 #include "miniRT.h"
 
+// Parses a "x,y,z" orientation token for a shape (plane normal or
+// cylinder axis), validates each component in [-1.0, 1.0] and that the
+// vector isn't all-zero, then normalises it. name is used in error output.
 static int	parse_orient_token(const char *token, t_vec3 *dir, char *name)
 {
 	if (parse_vec3(token, dir) == -1)
@@ -36,6 +39,7 @@ static int	parse_orient_token(const char *token, t_vec3 *dir, char *name)
 	return (0);
 }
 
+// Allocates and initialises a PLANE object. Returns NULL on malloc failure.
 static t_object	*new_plane(t_vec3 point, t_vec3 normal, t_vec3 colour)
 {
 	t_object	*obj;
@@ -51,6 +55,9 @@ static t_object	*new_plane(t_vec3 point, t_vec3 normal, t_vec3 colour)
 	return (obj);
 }
 
+// Allocates and initialises a CYLINDER object. size[0] is diameter
+// (converted to radius) and size[1] is height. Returns NULL on malloc
+// failure.
 static t_object	*new_cylinder(t_vec3 centre, t_vec3 axis, double *size,
 		t_vec3 colour)
 {
@@ -69,6 +76,7 @@ static t_object	*new_cylinder(t_vec3 centre, t_vec3 axis, double *size,
 	return (obj);
 }
 
+// Parses: pl <point x,y,z> <normal x,y,z> <R,G,B>
 int	parse_plane(char **tokens, t_scene *scene)
 {
 	t_vec3		point;
@@ -96,6 +104,7 @@ int	parse_plane(char **tokens, t_scene *scene)
 	return (0);
 }
 
+// Parses: cy <centre x,y,z> <axis x,y,z> <diameter> <height> <R,G,B>
 int	parse_cylinder(char **tokens, t_scene *scene)
 {
 	t_vec3		centre;

@@ -1,5 +1,8 @@
 #include "miniRT.h"
 
+// Build the primary ray through pixel (x, y): map the pixel to normalised
+// device coordinates (u, v) in [-1, 1] scaled by the camera's half-width/
+// height, then offset the camera's forward direction by right*u + up*v
 t_ray	camera_ray(t_scene *scene, int x, int y)
 {
 	double	u;
@@ -15,6 +18,10 @@ t_ray	camera_ray(t_scene *scene, int x, int y)
 	return (ray_init(scene->camera.pos, dir));
 }
 
+// Cast a ray from the hit point towards the light and check whether
+// anything blocks it before reaching the light. The origin is nudged
+// along the normal by HIT_EPSILON to avoid the ray immediately
+// re-hitting the same surface it started from ("shadow acne").
 static int	in_shadow(t_scene *scene, t_hit *hit, t_light *light)
 {
 	t_vec3	to_light;
@@ -29,6 +36,9 @@ static int	in_shadow(t_scene *scene, t_hit *hit, t_light *light)
 	return (hit_scene(scene, shadow_ray, dist, &shadow_hit));
 }
 
+// Compute the visible colour at a hit point: start from ambient light,
+// then add each light's diffuse (Lambertian) contribution unless the
+// point is in shadow from that light or facing away from it
 t_vec3	shade_hit(t_scene *scene, t_hit *hit)
 {
 	t_vec3	color;

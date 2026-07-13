@@ -1,11 +1,18 @@
 #include "miniRT.h"
 
+// Flip the hit normal so it always points back towards the ray origin,
+// i.e. against the incoming ray direction (needed for correct shading
+// whether the ray hits the outside or the inside of a surface)
 void	face_normal(t_ray ray, t_hit *hit)
 {
 	if (vec3_dot(ray.direction, hit->normal) > 0.0)
 		hit->normal = vec3_neg(hit->normal);
 }
 
+// Ray-sphere intersection via the quadratic formula:
+// |origin + t*dir - centre|^2 = radius^2 expands to a*t^2 + 2*half_b*t + c = 0.
+// Tries the nearer root first, then the farther one, keeping whichever
+// lands within the segment's [t_min, t_max] range.
 int	hit_sphere_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	t_vec3	oc;

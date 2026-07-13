@@ -1,5 +1,9 @@
 #include "miniRT.h"
 
+// Given a candidate root from the infinite-tube equation, confirm it
+// lands within the segment range AND within the cylinder's finite height
+// (measured as the signed distance along the axis from the centre), then
+// fill in the hit with a normal perpendicular to the axis.
 static int	set_cylinder_side_hit(t_object *obj, t_ray_segment seg,
 		double root, t_hit *hit)
 {
@@ -21,6 +25,10 @@ static int	set_cylinder_side_hit(t_object *obj, t_ray_segment seg,
 	return (1);
 }
 
+// Ray-cylinder (infinite tube) intersection: project both the ray direction
+// and the origin-to-centre vector onto the plane perpendicular to the
+// cylinder's axis, then solve the resulting 2D ray-circle quadratic.
+// Tries the nearer root first, falling back to the farther one.
 static int	hit_cylinder_side(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	t_vec3	oc;
@@ -49,6 +57,11 @@ static int	hit_cylinder_side(t_object *obj, t_ray_segment seg, t_hit *hit)
 	return (set_cylinder_side_hit(obj, seg, root, hit));
 }
 
+// Ray-disc intersection for one of the cylinder's flat end caps. offset is
+// the signed distance from the cylinder centre to that cap along the axis
+// (positive or negative half-height). Checks the ray hits the cap's plane
+// within the segment range, then that the hit point falls inside the
+// cap's radius. The cap normal points outward along the axis.
 static int	test_cylinder_cap(t_object *obj, t_ray_segment seg,
 		double offset, t_hit *hit)
 {
@@ -78,6 +91,8 @@ static int	test_cylinder_cap(t_object *obj, t_ray_segment seg,
 	return (1);
 }
 
+// Full cylinder intersection: test the round side and both end caps,
+// shrinking seg.t_max after each hit so only the closest surface wins.
 int	hit_cylinder_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	t_hit	temp;

@@ -1,5 +1,6 @@
 #include "miniRT.h"
 
+// Dispatch to the correct intersection routine based on the object's shape
 static int	hit_object(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	if (obj->type == SPHERE)
@@ -11,6 +12,8 @@ static int	hit_object(t_object *obj, t_ray_segment seg, t_hit *hit)
 	return (0);
 }
 
+// Walk every object in the scene, keeping only the closest hit by
+// shrinking seg->t_max each time a nearer intersection is found
 static int	hit_object_list(t_object *list, t_ray_segment *seg, t_hit *hit)
 {
 	t_object	*obj;
@@ -46,6 +49,8 @@ static int	ray_inside_axis(t_object *axis, t_vec3 origin)
 	return (vec3_len(oc_perp) < axis->shape.cy.radius);
 }
 
+// Same closest-hit walk as hit_object_list, but for the debug axes list,
+// skipping any axis the ray origin is currently sitting inside of
 static int	hit_axes(t_object *list, t_ray_segment *seg, t_hit *hit)
 {
 	t_object	*obj;
@@ -68,6 +73,8 @@ static int	hit_axes(t_object *list, t_ray_segment *seg, t_hit *hit)
 	return (found);
 }
 
+// Find the closest intersection along ray within (HIT_EPSILON, t_max),
+// checking scene objects first and then the debug axes if enabled
 int	hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit)
 {
 	t_ray_segment	seg;

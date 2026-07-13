@@ -1,5 +1,6 @@
 #include "miniRT.h"
 
+// Log the camera's current position and facing direction to stdout
 static void	print_camera_info(t_camera *cam)
 {
 	ft_printf("Camera position: (%f, %f, %f), direction: (%f, %f, %f)\n",
@@ -22,6 +23,8 @@ void	rotate_camera(t_camera *cam, double yaw, double pitch)
 	print_camera_info(cam);
 }
 
+// Move the camera along its own right/up axes (screen-space panning),
+// so the shift feels the same regardless of which way the camera faces.
 void	pan_camera(t_camera *cam, double horizontal, double vertical)
 {
 	cam->pos = vec3_add(cam->pos, vec3_scale(cam->right, horizontal));
@@ -29,11 +32,13 @@ void	pan_camera(t_camera *cam, double horizontal, double vertical)
 	print_camera_info(cam);
 }
 
+// Convert an angle in degrees to radians
 double	degrees_to_radians(double degrees)
 {
 	return (degrees * M_PI / 180.0);
 }
 
+// Convert an angle in radians to degrees
 double	radians_to_degrees(double radians)
 {
 	return (radians * 180.0 / M_PI);

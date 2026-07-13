@@ -1,10 +1,13 @@
 #include "miniRT.h"
 
+// Multiply two vectors component-wise (used to tint/combine colours,
+// since colours are represented as vectors with components in [0, 1])
 t_vec3	vec3_mul(t_vec3 a, t_vec3 b)
 {
 	return (vec3_init(a.x * b.x, a.y * b.y, a.z * b.z));
 }
 
+// Clamp each component of a colour vector into the valid [0, 1] range
 t_vec3	vec3_clamp(t_vec3 v)
 {
 	if (v.x < 0.0)
@@ -22,6 +25,8 @@ t_vec3	vec3_clamp(t_vec3 v)
 	return (v);
 }
 
+// Convert a clamped 0.0-1.0 RGB colour vector into a packed 0xRRGGBB int
+// (0.999 nudges values like 1.0 to round down to 255 instead of 256)
 int	pack_color(t_vec3 color)
 {
 	color = vec3_clamp(color);

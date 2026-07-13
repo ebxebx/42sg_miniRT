@@ -12,16 +12,19 @@
 
 #include "vec3.h"
 
+// Build a vector from its three components
 t_vec3	vec3_init(double x, double y, double z)
 {
 	return ((t_vec3){x, y, z});
 }
 
+// Return a copy of a vector
 t_vec3	vec3_dup(t_vec3 v)
 {
 	return (vec3_init(v.x, v.y, v.z));
 }
 
+// Return the zero vector (0, 0, 0)
 t_vec3	vec3_zero(void)
 {
 	return (vec3_init(0.0, 0.0, 0.0));

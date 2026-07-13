@@ -12,16 +12,19 @@
 
 #include "vec3.h"
 
+// Add two vectors component-wise
 t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
+// Subtract vector b from vector a component-wise
 t_vec3	vec3_sub(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
 }
 
+// Scale a vector by a scalar factor
 t_vec3	vec3_scale(t_vec3 v, double s)
 {
 	return ((t_vec3){v.x * s, v.y * s, v.z * s});

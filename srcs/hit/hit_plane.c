@@ -1,5 +1,8 @@
 #include "miniRT.h"
 
+// Ray-plane intersection: solve (origin + t*dir - point) . normal = 0 for t.
+// If the ray direction is (near) parallel to the plane, denom is ~0 and
+// there is no single intersection point, so bail out early.
 int	hit_plane_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	double	denom;

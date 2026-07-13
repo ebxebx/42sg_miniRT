@@ -12,7 +12,8 @@
 
 #include "miniRT.h"
 
-// check if is digits and has .
+// Checks a string is a valid decimal number: an optional sign, digits,
+// at most one '.', and nothing else trailing
 static int	is_valid_double(const char *s)
 {
 	int	has_digit;
@@ -39,7 +40,8 @@ static int	is_valid_double(const char *s)
 	return (1);
 }
 
-//-1 if s is NULL or not a valid number.
+// Parses a string into a double, rejecting NULL, malformed numbers, and
+// any trailing characters after the number. Returns -1 on failure.
 int	parse_double(const char *s, double *out)
 {
 	char	*end;
@@ -52,7 +54,8 @@ int	parse_double(const char *s, double *out)
 	return (0);
 }
 
-//split each token into the x, y, z of 3D vec
+// Parses a "x,y,z" token into a vec3, requiring exactly three
+// comma-separated numeric parts. Returns -1 on any malformed input.
 int	parse_vec3(const char *token, t_vec3 *out)
 {
 	char	**parts;
@@ -78,6 +81,8 @@ int	parse_vec3(const char *token, t_vec3 *out)
 	return (0);
 }
 
+// Parses an "R,G,B" token with each component in [0, 255], then
+// normalises them to [0.0, 1.0] since colours are stored as unit vectors
 int	parse_rgb(const char *token, t_vec3 *out)
 {
 	t_vec3	rgb;

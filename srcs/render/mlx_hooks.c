@@ -3,6 +3,9 @@
 #define ROTATE_STEP_DEG 5.0
 #define PAN_STEP 0.5
 
+// Handle keyboard input: Escape quits, 'a' toggles debug axes, arrow keys
+// rotate the camera, i/j/k/l pan it, 'r' resets to the initial camera.
+// Any handled key triggers a re-render at the end.
 int	key_hook(int keycode, void *param)
 {
 	t_scene	*scene;
@@ -38,12 +41,14 @@ int	key_hook(int keycode, void *param)
 	return (0);
 }
 
+// Re-render the scene whenever the window is exposed (e.g. uncovered)
 int	expose_hook(void *data)
 {
 	render_scene((t_scene *)data);
 	return (0);
 }
 
+// MLX main-loop hook; currently a no-op since rendering is event-driven
 int	loop_hook(t_mlx *mlx)
 {
 	(void)mlx;

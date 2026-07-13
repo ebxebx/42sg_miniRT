@@ -1,5 +1,7 @@
 #include "miniRT.h"
 
+// Validate the CLI invocation: exactly one argument, ending in ".rt".
+// Exits the program immediately on a bad usage.
 static void	check_args(int argc, char **argv)
 {
 	char	*ext;
@@ -17,6 +19,8 @@ static void	check_args(int argc, char **argv)
 	}
 }
 
+// Set up MLX (window/image), wire up input/render hooks, draw the first
+// frame, then hand control to the MLX event loop until the window closes
 static int	run_scene(t_scene *scene)
 {
 	scene->mlx = malloc(sizeof(t_mlx));
@@ -42,6 +46,7 @@ static int	run_scene(t_scene *scene)
 	return (0);
 }
 
+// Entry point: validate args, parse the .rt scene file, then run it
 int	main(int argc, char **argv)
 {
 	t_scene	scene;

@@ -45,7 +45,8 @@ void	add_object(t_scene *scene, t_object *obj)
 	last->next = obj;
 }
 
-// Allocates and initialises a SPHERE object. Returns NULL on malloc failure.
+// Allocates and initialises a SPHERE object, converting diameter to
+// radius. Returns NULL on malloc failure.
 static t_object	*new_sphere(t_vec3 centre, double diameter, t_vec3 colour)
 {
 	t_object	*obj;

@@ -5,6 +5,7 @@
 #define AXIS_LENGTH 1000.0
 #define AXIS_RADIUS 0.075
 
+// Allocate one cylinder segment used to draw half of a debug axis
 static t_object	*new_axis_seg(t_vec3 centre, t_vec3 axis, t_vec3 colour)
 {
 	t_object	*obj;
@@ -37,6 +38,8 @@ static t_object	*build_one_axis(t_vec3 dir, t_vec3 bright, t_vec3 dim)
 	return (pos);
 }
 
+// Build the red/green/blue X/Y/Z debug axes (6 cylinder segments total,
+// chained via ->next) and store them on the scene; toggled by show_axes.
 void	init_axes(t_scene *scene)
 {
 	t_object	*x_axis;
@@ -58,6 +61,7 @@ void	init_axes(t_scene *scene)
 	scene->axes = x_axis;
 }
 
+// Free the linked list of debug-axis objects built by init_axes
 void	free_axes(t_object *axes)
 {
 	t_object	*next;
