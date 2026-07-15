@@ -64,9 +64,9 @@ DEPFLAGS = -MMD -MP
 .DEFAULT_GOAL := all
 
 # build the target $(NAMES)
-all: $(LIBFT) $(NAME)
+all: libft $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+$(NAME): $(OBJS) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(NAME)
 	@echo "✓ built $(NAME)"
 
@@ -81,10 +81,10 @@ libft:
 	$(LIBFT_MAKE)
 
 #run with args
-run: $(NAME)
+run: libft $(NAME)
 	./$(NAME) $(ARGS)
 
-run2: $(NAME)
+run2: libft $(NAME)
 	./$(NAME) $(ARGS2)
 
 #build and run inside the Docker/Linux container (with XQuartz display forwarding)
@@ -118,4 +118,4 @@ fclean: clean
 re: fclean all
 
 # Phony targets (commands and not files)
-.PHONY: all clean fclean re testv run run2 docker-run
+.PHONY: all clean fclean re libft testv run run2 docker-run
