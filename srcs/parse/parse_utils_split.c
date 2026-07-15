@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_split.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 15:15:07 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 17:24:41 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 20:46:10 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 // Count the number of tokens in a line (' ', '\n', '\t' delimiters)
-static int count_tokens(const char *line)
+static int	count_tokens(const char *line)
 {
 	int	count;
 	int	in_word;
 
 	count = 0;
 	in_word = 0;
-	while(*line)
+	while (*line)
 	{
 		if (*line == ' ' || *line == '\n' || *line == '\t')
 			in_word = 0;
@@ -34,7 +34,7 @@ static int count_tokens(const char *line)
 	return (count);
 }
 
-//fills token with the split up values
+// fills token with the split up values
 static const char	*fill_tokens(char **tokens, const char *line, int i)
 {
 	const char	*start;
@@ -68,9 +68,9 @@ void	free_tokens(char **arr)
 // it in with fill_tokens)
 char	**split_line(const char *line)
 {
-	char		**tokens;
-	int			count;
-	int			i;
+	char	**tokens;
+	int		count;
+	int		i;
 
 	count = count_tokens(line);
 	tokens = malloc(sizeof(char *) * (count + 1));
@@ -93,5 +93,3 @@ char	**split_line(const char *line)
 	tokens[i] = NULL;
 	return (tokens);
 }
-
-

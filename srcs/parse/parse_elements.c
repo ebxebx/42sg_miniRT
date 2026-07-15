@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/31 19:33:16 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 20:22:05 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,13 @@ static int	parse_orient(const char *token, t_vec3 *dir)
 	return (0);
 }
 
-// Derives the camera's right and up axes from its forward direction (dir),
-// and precomputes half_w = tan(fov/2) so ray generation needs no trig per pixel.
+// Derives the camera's right and up axes from its forward direction (dir), and
+// precomputes half_w = tan(fov/2) so ray generation needs no trig per pixel.
 // If dir is nearly parallel to world_up (0,1,0), the cross product degenerates
 // to a zero vector — we fall back to (0,0,1) as the reference up axis instead.
+// Note:
+// camera pointing straight up or down — use z-axis as fallback
+// tan(fov_deg/2 * pi/180) simplifies to tan(fov_deg * pi/360)
 void	build_camera_axes(t_camera *cam)
 {
 	t_vec3	world_up;
@@ -93,7 +96,6 @@ void	build_camera_axes(t_camera *cam)
 	world_up.x = 0;
 	world_up.y = 1;
 	world_up.z = 0;
-	/* camera pointing straight up or down — use z-axis as fallback */
 	if (fabs(vec3_dot(cam->dir, world_up)) > 0.99)
 	{
 		world_up.y = 0;
@@ -101,12 +103,13 @@ void	build_camera_axes(t_camera *cam)
 	}
 	cam->right = vec3_norm(vec3_cross(cam->dir, world_up));
 	cam->up = vec3_cross(cam->right, cam->dir);
-	/* tan(fov_deg/2 * pi/180) simplifies to tan(fov_deg * pi/360) */
 	cam->half_w = tan(cam->fov * M_PI / 360.0);
 }
 
-// Parses position (any real x,y,z), orientation ([-1,1] per component, normalised),
-// and FOV in degrees [0, 180]. Derives camera axes after all fields are validated.
+// Parses position (any real x,y,z), 
+// orientation ([-1,1] per component, normalised),
+// and FOV in degrees [0, 180].
+// Derives camera axes after all fields are validated.
 int	parse_camera(char **tokens, t_scene *scene)
 {
 	if (tokens[1] == NULL || tokens[2] == NULL

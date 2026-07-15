@@ -1,6 +1,6 @@
 NAME = miniRT
-ARGS = ./scenes/minimalist.rt --save minimalist.ppm
-ARGS2 = ./scenes/full.rt --save full.ppm
+ARGS = ./scenes/minimalist.rt
+ARGS2 = ./scenes/full.rt
 
 LIBFT_DIR = ./libft
 LIBFT     = $(LIBFT_DIR)/libft.a

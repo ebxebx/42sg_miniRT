@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parse_and_free_scene.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/31 21:07:06 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/31 21:07:15 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 20:17:36 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "miniRT.h"
 

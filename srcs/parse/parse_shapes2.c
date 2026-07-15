@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/31 19:06:31 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 20:41:18 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,8 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5]
 		|| tokens[6])
-	{
-		ft_putstr_fd("Error: cy requires <centre> <axis> <diameter>", 2);
-		ft_putendl_fd(" <height> <R,G,B>", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("Error: cy requires <centre> <axis> <diameter>"
+				" <height> <R,G,B>", 2), 1);
 	if (parse_vec3(tokens[1], &centre) == -1)
 		return (ft_putstr_fd("Error: Cylinder centre must be x,y,z\n", 2), 1);
 	if (parse_orient_token(tokens[2], &axis, "Cylinder"))

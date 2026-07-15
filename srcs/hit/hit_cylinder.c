@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit_cylinder.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/15 20:49:01 by zchoo             #+#    #+#             */
+/*   Updated: 2026/07/15 22:10:45 by zchoo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
+#include "quadratic.h"
 
 // Given a candidate root from the infinite-tube equation, confirm it
 // lands within the segment range AND within the cylinder's finite height
@@ -29,31 +42,37 @@ static int	set_cylinder_side_hit(t_object *obj, t_ray_segment seg,
 // and the origin-to-centre vector onto the plane perpendicular to the
 // cylinder's axis, then solve the resulting 2D ray-circle quadratic.
 // Tries the nearer root first, falling back to the farther one.
-static int	hit_cylinder_side(t_object *obj, t_ray_segment seg, t_hit *hit)
+static void	set_cylinder_side_quadratic(t_object *obj, t_ray_segment seg,
+	t_quadratic *calc)
 {
 	t_vec3	oc;
 	t_vec3	d_perp;
 	t_vec3	oc_perp;
-	double	quad[3];
-	double	discriminant;
-	double	root;
 
 	oc = vec3_sub(seg.ray.origin, obj->shape.cy.centre);
 	d_perp = vec3_sub(seg.ray.direction, vec3_scale(obj->shape.cy.axis,
 				vec3_dot(seg.ray.direction, obj->shape.cy.axis)));
 	oc_perp = vec3_sub(oc, vec3_scale(obj->shape.cy.axis,
 				vec3_dot(oc, obj->shape.cy.axis)));
-	quad[0] = vec3_dot(d_perp, d_perp);
-	quad[1] = vec3_dot(d_perp, oc_perp);
-	quad[2] = vec3_dot(oc_perp, oc_perp)
+	calc->a = vec3_dot(d_perp, d_perp);
+	calc->half_b = vec3_dot(d_perp, oc_perp);
+	calc->c = vec3_dot(oc_perp, oc_perp)
 		- obj->shape.cy.radius * obj->shape.cy.radius;
-	discriminant = quad[1] * quad[1] - quad[0] * quad[2];
-	if (fabs(quad[0]) < HIT_EPSILON || discriminant < 0.0)
+	calc->discriminant = calc->half_b * calc->half_b - calc->a * calc->c;
+}
+
+static int	hit_cylinder_side(t_object *obj, t_ray_segment seg, t_hit *hit)
+{
+	t_quadratic	quadratic;
+	double		root;
+
+	set_cylinder_side_quadratic(obj, seg, &quadratic);
+	if (fabs(quadratic.a) < HIT_EPSILON || quadratic.discriminant < 0.0)
 		return (0);
-	root = (-quad[1] - sqrt(discriminant)) / quad[0];
+	root = (-quadratic.half_b - sqrt(quadratic.discriminant)) / quadratic.a;
 	if (set_cylinder_side_hit(obj, seg, root, hit))
 		return (1);
-	root = (-quad[1] + sqrt(discriminant)) / quad[0];
+	root = (-quadratic.half_b + sqrt(quadratic.discriminant)) / quadratic.a;
 	return (set_cylinder_side_hit(obj, seg, root, hit));
 }
 

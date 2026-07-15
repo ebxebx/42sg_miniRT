@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_shapes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/31 19:06:31 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 21:46:30 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,29 @@ static t_object	*new_sphere(t_vec3 centre, double diameter, t_vec3 colour)
 	return (obj);
 }
 
+static int	parse_sphere_check_tokens(char **tokens, t_vec3 *centre,
+		double *diameter, t_vec3 *colour)
+{
+	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
+	{
+		ft_putstr_fd("Error: sp requires <centre> <diameter> <R,G,B>\n", 2);
+		return (1);
+	}
+	if (parse_vec3(tokens[1], centre) == -1)
+	{
+		ft_putstr_fd("Error: Sphere centre must be x,y,z\n", 2);
+		return (1);
+	}
+	if (parse_double(tokens[2], diameter) == -1 || *diameter <= 0.0)
+	{
+		ft_putstr_fd("Error: Sphere diameter must be positive\n", 2);
+		return (1);
+	}
+	if (parse_rgb(tokens[3], colour) == -1)
+		return (1);
+	return (0);
+}
+
 // Parses: sp <centre x,y,z> <diameter> <R,G,B>
 // Diameter must be positive; stored as radius = diameter / 2.
 int	parse_sphere(char **tokens, t_scene *scene)
@@ -71,22 +94,7 @@ int	parse_sphere(char **tokens, t_scene *scene)
 	t_vec3		colour;
 	t_object	*obj;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
-	{
-		ft_putstr_fd("Error: sp requires <centre> <diameter> <R,G,B>\n", 2);
-		return (1);
-	}
-	if (parse_vec3(tokens[1], &centre) == -1)
-	{
-		ft_putstr_fd("Error: Sphere centre must be x,y,z\n", 2);
-		return (1);
-	}
-	if (parse_double(tokens[2], &diameter) == -1 || diameter <= 0.0)
-	{
-		ft_putstr_fd("Error: Sphere diameter must be positive\n", 2);
-		return (1);
-	}
-	if (parse_rgb(tokens[3], &colour) == -1)
+	if (parse_sphere_check_tokens(tokens, &centre, &diameter, &colour))
 		return (1);
 	obj = new_sphere(centre, diameter, colour);
 	if (!obj)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/15 19:40:42 by zchoo             #+#    #+#             */
+/*   Updated: 2026/07/15 20:06:51 by zchoo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
 // Trace one ray per pixel across the whole image, shade whatever it hits
@@ -60,6 +72,10 @@ static int	free_memory(t_mlx *mlx)
 
 // Tear down the MLX window/image/display, free the scene, and exit — this
 // is the program's sole exit point, triggered by Escape or a window close
+// Note:
+// mlx_destroy_display() only calls XCloseDisplay(); it never frees
+// the t_xvar struct that mlx_init() malloc'd and returned as this
+// opaque handle, so we must free it ourselves.
 int	close_window(t_scene *scene)
 {
 	if (scene->mlx)
@@ -68,9 +84,6 @@ int	close_window(t_scene *scene)
 		mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_display(scene->mlx->mlx);
-		// mlx_destroy_display() only calls XCloseDisplay(); it never frees
-		// the t_xvar struct that mlx_init() malloc'd and returned as this
-		// opaque handle, so we must free it ourselves.
 		free_memory(scene->mlx->mlx);
 		free_memory(scene->mlx);
 		scene->mlx = NULL;
