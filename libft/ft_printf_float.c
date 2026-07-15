@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/29 19:05:00 by zchoo             #+#    #+#             */
-/*   Updated: 2026/03/30 21:16:29 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 18:39:03 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	handle_floating_point_number(int fd, va_list *ap, const char flag)
 	if (flag == 'f')
 	{
 		frac_part = rint(modf(va_arg(*ap, double), &int_part) * 1000000);
+		if (frac_part < 0.0)
+			frac_part *= -1.0;
 		ft_putnbr_fd(int_part, fd);
 		cnt += get_nbr_length((long)int_part);
 		ft_putchar_fd('.', fd);
