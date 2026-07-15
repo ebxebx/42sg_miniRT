@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 20:49:11 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 22:08:49 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 22:30:36 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ static void	set_sphere_quadratic(t_object *obj, t_ray_segment seg,
 // |origin + t*dir - centre|^2 = radius^2 expands to a*t^2 + 2*half_b*t + c = 0.
 // Tries the nearer root first, then the farther one, keeping whichever
 // lands within the segment's [t_min, t_max] range.
+// Note:
+// since we use half_b instead of b, the quadratic formula becomes:
+// t = (-half_b ± sqrt(half_b^2 - a*c)) / a
 int	hit_sphere_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 {
 	t_quadratic	quadratic;
