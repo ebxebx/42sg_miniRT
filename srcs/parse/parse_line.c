@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:12 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/31 19:33:47 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/15 23:35:20 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ static int	process_line(char *line, t_scene *scene)
 	return (failed);
 }
 
-// Reads the file line by line, skipping blanks, stopping on the first error.
+// Reads the file line by line, skipping blanks, stopping process on the first
+// error, but reads the entire file to free all lines.
+// Returns 1 on any error, else 0.
 int	read_lines(int fd, t_scene *scene)
 {
 	char	*line;
@@ -67,9 +69,9 @@ int	read_lines(int fd, t_scene *scene)
 
 	failed = 0;
 	line = get_next_line(fd);
-	while (line && !failed)
+	while (line)
 	{
-		if (!is_blank_line(line))
+		if (!failed && !is_blank_line(line))
 			failed = process_line(line, scene);
 		free(line);
 		line = get_next_line(fd);
