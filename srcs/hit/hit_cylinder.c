@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 20:49:01 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 22:10:45 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 23:11:12 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	set_cylinder_side_hit(t_object *obj, t_ray_segment seg,
 	hit->normal = vec3_norm(vec3_sub(center_to_hit,
 				vec3_scale(obj->shape.cy.axis, axis_pos)));
 	hit->obj = obj;
-	face_normal(seg.ray, hit);
+	set_face_normal(seg.ray, hit);
 	return (1);
 }
 
@@ -106,7 +106,7 @@ static int	test_cylinder_cap(t_object *obj, t_ray_segment seg,
 	if (offset < 0.0)
 		hit->normal = vec3_neg(hit->normal);
 	hit->obj = obj;
-	face_normal(seg.ray, hit);
+	set_face_normal(seg.ray, hit);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 16:46:01 by zchoo             #+#    #+#             */
-/*   Updated: 2026/05/24 17:10:40 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 23:06:34 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_vec3	vec3_scale(t_vec3 v, double s)
 
 // Compute the dot product of two vectors
 // a . b = (a.x * b.x + a.y * b.y + a.z * b.z)
+// a . b = b . a
 double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
@@ -39,6 +40,7 @@ double	vec3_dot(t_vec3 a, t_vec3 b)
 
 // Compute the cross product of two vectors
 // a x b = (a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x)
+// a x b = - (b x a)
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y

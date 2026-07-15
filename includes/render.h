@@ -16,7 +16,7 @@ t_vec3	vec3_clamp(t_vec3 v);
 int		pack_color(t_vec3 color);
 
 // hit_sphere.c
-void	face_normal(t_ray ray, t_hit *hit);
+void	set_face_normal(t_ray ray, t_hit *hit);
 int		hit_sphere_obj(t_object *obj, t_ray_segment seg, t_hit *hit);
 
 // hit_plane.c

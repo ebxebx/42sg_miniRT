@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 20:49:11 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 22:30:36 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 23:11:12 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // Flip the hit normal so it always points back towards the ray origin,
 // i.e. against the incoming ray direction (needed for correct shading
 // whether the ray hits the outside or the inside of a surface)
-void	face_normal(t_ray ray, t_hit *hit)
+void	set_face_normal(t_ray ray, t_hit *hit)
 {
 	if (vec3_dot(ray.direction, hit->normal) > 0.0)
 		hit->normal = vec3_neg(hit->normal);
@@ -63,6 +63,6 @@ int	hit_sphere_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 	hit->normal = vec3_scale(vec3_sub(hit->point, obj->shape.sp.centre), 1.0
 			/ obj->shape.sp.radius);
 	hit->obj = obj;
-	face_normal(seg.ray, hit);
+	set_face_normal(seg.ray, hit);
 	return (1);
 }

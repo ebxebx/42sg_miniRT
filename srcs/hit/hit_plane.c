@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 20:49:05 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 20:49:06 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/15 23:11:12 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	hit_plane_obj(t_object *obj, t_ray_segment seg, t_hit *hit)
 	hit->point = ray_at(seg.ray, root);
 	hit->normal = obj->shape.pl.normal;
 	hit->obj = obj;
-	face_normal(seg.ray, hit);
+	set_face_normal(seg.ray, hit);
 	return (1);
 }
