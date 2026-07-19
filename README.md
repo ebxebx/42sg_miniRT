@@ -61,6 +61,9 @@ Rather than aiming for a full path tracer, the project focuses on the subset exp
 ### 🎮 Interactive controls
 - arrow keys rotate the camera around the scene
 - `J/L` pan left/right and `I/K` pan up/down
+- `+` / `-` dolly the camera forward/backward along world Z
+- `1` / `2` narrow/widen the FOV, clamped to `[1, 180]`
+- `F` toggles a fisheye projection on top of the current camera
 - a reset key snaps the camera straight back to exactly what the `.rt` file described
 - a debug overlay can toggle three coloured X/Y/Z axis lines on and off, useful for getting your bearings in a new scene
 - full key list further down, under Usage examples
@@ -174,6 +177,11 @@ Ambient is added once per pixel. Then, for every light in the scene, a shadow ra
 | red ✕ (titlebar)  | same as `Esc` — clean exit                                     |
 | `←` / `→`         | yaw the camera left / right around the scene                   |
 | `↑` / `↓`         | pitch the camera up / down                                     |
+| `J` / `L`         | pan the camera left / right                                    |
+| `I` / `K`         | pan the camera up / down                                       |
+| `+` / `-`         | dolly the camera forward / backward along world Z (`=`/`-` key) |
+| `1` / `2`         | narrow / widen the FOV by 5°, clamped to `[1°, 180°]`           |
+| `F`               | toggle a fisheye projection on top of the current camera        |
 | `R`               | reset the camera to exactly what the `.rt` file described       |
 | `A`               | toggle a debug X/Y/Z axis overlay on/off                        |
 
@@ -229,6 +237,11 @@ make run2   # renders scenes/full.rt
 Esc / red ✕   quit
 ←  →          rotate camera left / right
 ↑  ↓          rotate camera up / down
+J  L          pan camera left / right
+I  K          pan camera up / down
++  -          dolly camera forward / backward (Z axis)
+1  2          narrow / widen FOV (zoom in / out)
+F             toggle fisheye projection
 R             reset camera to the scene file's original view
 A             toggle the X/Y/Z debug axes
 ```
@@ -260,13 +273,12 @@ Built to exercise the parser's error paths one at a time — each malformed line
 ## 📚 Resources
 
 References used to understand the project topic:
-- 
-- < TODO: to add book used >
+- [_Ray Tracing in One Weekend_](https://raytracing.github.io/)
+- _The Ray Tracer Challenge: A Test-Driven Guide to Your First 3D Renderer_ by Jamis Buck
 
-AI was used for:
-- ...
+AI was used for referencing, concept clarifications, visualisation and formula explanations
 
 ---
 ## 🌱 Final thought
 
-...✨
+The surprise was that wrong math doesn't necessary crash, it renders quietly wrong: a stretched sphere, a cross product whose swapped arguments happened to cancel out and look correct until a new scene exposed it. To debug, we added in tools(keys,axis) to help us visualise to find the bug, before we analysed the code. The geometry only clicked once we saw it spatially and understanding that made the project easier. ✨
