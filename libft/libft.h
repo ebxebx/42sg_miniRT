@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:01:10 by zchoo             #+#    #+#             */
-/*   Updated: 2026/04/08 17:11:03 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/19 17:07:54 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strdup(const char *src);
 char				*ft_strndup(const char *src, size_t n);
+
+int					ft_chrcnt(const char *str, char c);
 
 int					ft_tolower(int c);
 int					ft_toupper(int c);
