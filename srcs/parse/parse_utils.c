@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ka-tan <ka-tan@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 15:15:07 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/05/27 19:38:44 by ka-tan           ###   ########.fr       */
+/*   Updated: 2026/07/19 17:08:26 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	parse_vec3(const char *token, t_vec3 *out)
 	if (!token)
 		return (-1);
 	parts = ft_split(token, ',');
-	if (!parts)
+	if (!parts || ft_chrcnt(token, ',') != 2)
 		return (-1);
 	if (!parts[0] || !parts[1] || !parts[2] || parts[3])
 	{
