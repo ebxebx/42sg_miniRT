@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/12 18:13:45 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/19 19:25:59 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <X11/keysym.h>
 # include <errno.h>
 # include <math.h>
+# include <stdio.h>
 
 // # define WIDTH 480
 // # define HEIGHT 270
@@ -151,6 +152,9 @@ typedef struct s_scene
 	/* debug overlay — X/Y/Z axis lines, toggled with the 'A' key */
 	t_object		*axes;
 	int				show_axes;
+
+	/* debug overlay — fisheye effect, toggled with the 'F' key */
+	int				show_fisheye;
 
 	t_mlx			*mlx;
 }					t_scene;

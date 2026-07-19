@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 20:08:03 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 20:08:04 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/19 20:05:27 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,30 @@ t_ray	camera_ray(t_scene *scene, int x, int y)
 	dir = vec3_add(scene->camera.dir, vec3_add(vec3_scale(scene->camera.right,
 					u), vec3_scale(scene->camera.up, v)));
 	return (ray_init(scene->camera.pos, dir));
+}
+
+t_ray	camera_ray_fisheye(t_scene *scene, int x, int y)
+{
+	t_camera		*cam;
+	t_fisheye_math	fisheye;
+
+	cam = &scene->camera;
+	fisheye.radius = fmin(WIDTH, HEIGHT) / 2.0;
+	fisheye.u = (x + 0.5 - WIDTH / 2.0) / fisheye.radius;
+	fisheye.v = (HEIGHT / 2.0 - (y + 0.5)) / fisheye.radius;
+	fisheye.r = sqrt(fisheye.u * fisheye.u + fisheye.v * fisheye.v);
+	if (fisheye.r > 1.0)
+		return (ray_init(cam->pos, vec3_zero()));
+	if (fisheye.r < 1e-9)
+		return (ray_init(cam->pos, cam->dir));
+	fisheye.theta = fisheye.r * cam->fov * M_PI / 360.0;
+	fisheye.radial = vec3_add(
+			vec3_scale(cam->right, fisheye.u / fisheye.r),
+			vec3_scale(cam->up, fisheye.v / fisheye.r));
+	fisheye.dir = vec3_add(
+			vec3_scale(cam->dir, cos(fisheye.theta)),
+			vec3_scale(fisheye.radial, sin(fisheye.theta)));
+	return (ray_init(cam->pos, fisheye.dir));
 }
 
 // Cast a ray from the hit point towards the light and check whether

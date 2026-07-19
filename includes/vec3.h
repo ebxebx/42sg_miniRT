@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 16:34:35 by zchoo             #+#    #+#             */
-/*   Updated: 2026/05/26 20:44:41 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/19 19:46:11 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_vec3		vec3_rotate(t_vec3 v, t_vec3 axis, double angle);
 t_vec3		vec3_init(double x, double y, double z);
 t_vec3		vec3_dup(t_vec3 v);
 t_vec3		vec3_zero(void);
+int			vec3_equal(t_vec3 a, t_vec3 b);
 int			double_equal(double a, double b);
 
 // vec3_test.c

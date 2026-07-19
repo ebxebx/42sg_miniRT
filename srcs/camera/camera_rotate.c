@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 21:48:54 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 21:48:55 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/07/19 19:25:29 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Log the camera's current position and facing direction to stdout
 static void	print_camera_info(t_camera *cam)
 {
-	ft_printf("Camera position: (%f, %f, %f), direction: (%f, %f, %f)\n",
+	printf("Camera position: (%f, %f, %f), direction: (%f, %f, %f)\n",
 		cam->pos.x, cam->pos.y, cam->pos.z, cam->dir.x, cam->dir.y,
 		cam->dir.z);
 }

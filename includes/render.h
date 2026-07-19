@@ -30,6 +30,7 @@ int		hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit);
 
 // shading.c
 t_ray	camera_ray(t_scene *scene, int x, int y);
+t_ray	camera_ray_fisheye(t_scene *scene, int x, int y);
 t_vec3	shade_hit(t_scene *scene, t_hit *hit);
 
 // render.c

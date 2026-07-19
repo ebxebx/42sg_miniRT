@@ -1,6 +1,17 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
+typedef struct s_fisheye_math
+{
+	double	radius;
+	double	u;
+	double	v;
+	double	r;
+	double	theta;
+	t_vec3	radial;
+	t_vec3	dir;
+}	t_fisheye_math;
+
 typedef struct s_camera	t_camera;
 
 void	build_camera_axes(t_camera *cam);

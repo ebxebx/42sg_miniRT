@@ -12,8 +12,7 @@
 
 #include "miniRT.h"
 
-// Checks A and C appeared exactly once, and L appeared at least once
-// (several light sources are valid — their contributions are summed).
+// Checks A, C, and L appeared exactly once.
 // Returns 1 and prints the specific error if not.
 int	check_scene_counts(t_scene *scene)
 {
@@ -33,9 +32,12 @@ int	check_scene_counts(t_scene *scene)
 			ft_putstr_fd("Error: duplicate camera (C)\n", 2);
 		return (1);
 	}
-	if (scene->has_light < 1)
+	if (scene->has_light != 1)
 	{
-		ft_putstr_fd("Error: missing light (L)\n", 2);
+		if (scene->has_light == 0)
+			ft_putstr_fd("Error: missing light (L)\n", 2);
+		else
+			ft_putstr_fd("Error: duplicate light (L)\n", 2);
 		return (1);
 	}
 	return (0);
