@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:40:42 by zchoo             #+#    #+#             */
-/*   Updated: 2026/08/02 19:10:58 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/02 19:42:16 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int	close_window(t_scene *scene)
 		mlx_destroy_image(scene->mlx->mlx, scene->mlx->img);
 		mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
-		mlx_destroy_display(scene->mlx->mlx);
-		free_ptr(scene->mlx->mlx);
 		mlx_destroy_display(scene->mlx->mlx);
 		free_ptr(scene->mlx->mlx);
 		free_ptr(scene->mlx);

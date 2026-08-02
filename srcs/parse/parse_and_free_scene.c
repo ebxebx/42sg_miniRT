@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/31 21:07:06 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/15 20:17:36 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/02 19:44:52 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void	scene_free(t_scene *scene)
 {
 	free_objects(scene->objects);
 	free_lights(scene->lights);
+	free_axes(scene->axes);
+	scene->objects = NULL;
+	scene->lights = NULL;
+	scene->axes = NULL;
 }
 
 // Opens the scene file, parses every line, and returns -1 on any error.

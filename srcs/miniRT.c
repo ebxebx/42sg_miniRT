@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 19:32:46 by zchoo             #+#    #+#             */
-/*   Updated: 2026/07/15 19:32:47 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/02 19:45:56 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	check_args(int argc, char **argv)
 {
 	char	*ext;
 
-	if (argc < 2)
+	if (argc != 2)
 	{
 		ft_putstr_fd("Error: Usage: ./miniRT <scene_file.rt>\n", 2);
 		exit(1);
