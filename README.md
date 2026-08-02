@@ -33,43 +33,6 @@ Rather than aiming for a full path tracer, the project focuses on the subset exp
 
 ---
 
-## ✨ Features
-
-### 🧩 Parsing & scene setup
-- tokenisation of each line, tolerant of tabs and repeated spaces
-- dedicated parser per element: `A`, `C`, `L`, `sp`, `pl`, `cy`
-- own `parse_double` (digit/dot validation, no reliance on libc `atof`)
-- range validation on every numeric field, with a distinct error message per failure
-- duplicate detection for `A` and `C` (exactly one each); `L` may appear one or more times
-- direction/normal/axis vectors are rejected outright if any component is outside `[-1,1]` or the vector is all-zero
-
-### 🎥 Camera & ray generation
-- camera basis (`right`, `up`) derived from the parsed forward direction at parse time
-- degenerate case handled: if the camera points almost straight up or down, the basis falls back to a `(0,0,1)` reference instead of producing a zero cross product
-- per-pixel ray built from FOV, aspect ratio, and the camera basis, normalised once in `ray_init`
-
-### 🔺 Shapes & intersections
-- sphere: closest positive root of the standard ray–sphere quadratic
-- plane: single division, rejecting rays parallel to the surface
-- cylinder: body via the 2D projection perpendicular to the axis, plus two disc caps — closest of the three wins
-
-### 💡 Lighting & shadows
-- ambient light applied once per pixel, never letting a surface go fully black
-- diffuse lighting summed across **every** light in the scene (not just one)
-- hard shadows via a shadow ray offset along the normal by an epsilon, checked against the distance to the light so objects behind a light don't cast one
-
-### 🎮 Interactive controls
-- arrow keys rotate the camera around the scene
-- `J/L` pan left/right and `I/K` pan up/down
-- `+` / `-` dolly the camera forward/backward along world Z
-- `1` / `2` narrow/widen the FOV, clamped to `[1, 180]`
-- `F` toggles a fisheye projection on top of the current camera
-- a reset key snaps the camera straight back to exactly what the `.rt` file described
-- a debug overlay can toggle three coloured X/Y/Z axis lines on and off, useful for getting your bearings in a new scene
-- full key list further down, under Usage examples
-
----
-
 ## 🏗️ Project overview
 
 A simplified flow of the renderer looks like this:
@@ -84,64 +47,34 @@ parse_scene() -> t_scene (camera, ambient, lights, objects)
                                     -> closest of: sphere / plane / cylinder
 ```
 
-### Main ideas behind the project
-- **Parser**: turns a text file into a `t_scene` — a camera, an ambient light, a linked list of lights, and a linked list of shapes
-- **Camera**: turns a pixel coordinate into a world-space ray
-- **Hit test**: turns a ray into the *nearest* thing it touches, or nothing
-- **Shader**: turns a hit point into a colour, using the lights that can actually reach it
-- **MLX loop**: turns a grid of colours into pixels on screen, and keeps listening for key presses
-
----
-## 🧠 Concepts we worked through
-
-### 📐 Why a ray is just a point and a direction
-
-A ray is nothing more than `origin + t * direction` — for any `t >= 0`, you get a point further along the ray. Nearly everything in the renderer boils down to solving for `t`: which `t` makes the ray touch a sphere, a plane, or a cylinder. Once direction is normalised, `t` is also literally the distance from the origin, which is why every other part of the renderer trusts `t` as a real-world distance (for picking the closest hit, or for shadow-ray distance checks).
-
-### 🎯 Why sphere intersection reduces to a quadratic equation
-
-Substituting the ray equation into the sphere equation `|P - centre|² = r²` produces a classic quadratic in `t`. Its discriminant tells you how many times the ray crosses the sphere (0, 1, or 2), and the smaller positive root is the entry point — the surface the camera actually sees. It's the same shape of problem for the cylinder body, just projected onto the plane perpendicular to the axis first.
-
-### 🩹 Why every hit needs an epsilon offset
-
-A ray that just bounced off a surface starts its next test (a shadow ray, for example) *at* that surface. Floating-point rounding means the ray can register a near-zero self-intersection with the very object it came from. Every hit test rejects `t` below a small epsilon for exactly this reason — skip it, and lit surfaces come out speckled with dark "acne" from a surface shadowing itself.
-
-### 🪞 Why the normal has to face the ray
-
-A surface normal always points a fixed way (outward, for a sphere), but the ray can approach from either side. Shading math (`dot(normal, light_dir)`) only makes sense if the normal points back *toward* the ray's origin side, so every hit test flips the normal when it's pointing the same way as the incoming ray. Skip this, and the underside of a surface shades as if it were lit from behind.
-
-### 🧭 Why the camera needs an orthonormal basis
-
-To turn a 2D pixel into a 3D ray you need three mutually perpendicular axes: forward (parsed from the file), right, and up. `right` comes from `cross(forward, world_up)` — which collapses to a zero vector if the camera looks straight up or down, since forward and world_up become parallel. The fix is a fallback reference axis for exactly that case, computed once when the camera is built or rotated.
-
-### 🌗 Why closest-t, not first-hit, decides what you see
-
-A scene with three overlapping objects means a ray can hit more than one of them. Only the *nearest* hit is visible — everything else is behind it. That's why the hit loop keeps shrinking its search window (`t_max`) to the closest `t` found so far as it walks every object, rather than stopping at the first one it happens to test.
-
 ---
 
-## 📦 About the Hit Record (`t_hit`)
+## 🛠️ Instructions
 
-A single boolean — "did the ray hit something?" — isn't enough information to shade a pixel. Shading needs to know *where* the ray landed, *which way* the surface faces there, *how far away* it is, and *which object* it belongs to (for its colour). That's what `t_hit` bundles together: `t`, `point`, `normal`, and `obj`.
-
-### A simple mental picture
-
-```text
-        ray
-         │
-   ●─────┼────────────●
- sphere   │           plane
-          │
-          ▼
-      t_hit {
-        t      = distance along the ray
-        point  = origin + t * direction
-        normal = surface normal at that point, facing the ray
-        obj    = the object that owns this surface
-      }
+1. To compile
+```bash
+make
 ```
 
-When a ray could hit several objects, the loop keeps re-testing with a shrinking `t_max` and only overwrites the `t_hit` when a closer one turns up. By the time every object has been checked, the surviving `t_hit` is exactly the one thing the camera can see through that pixel — everything the shader needs, and nothing it doesn't.
+2. Run
+```bash
+./miniRT scenes/minimalist.rt
+```
+
+3. Clean object files
+```bash
+make clean
+```
+
+4. Remove all generated files
+```bash
+make fclean
+```
+
+5. Rebuild from scratch
+```bash
+make re
+```
 
 ---
 
@@ -181,7 +114,7 @@ Ambient is added once per pixel. Then, for every light in the scene, a shadow ra
 | `I` / `K`         | pan the camera up / down                                       |
 | `+` / `-`         | dolly the camera forward / backward along world Z (`=`/`-` key) |
 | `1` / `2`         | narrow / widen the FOV by 5°, clamped to `[1°, 180°]`           |
-| `F`               | toggle a fisheye projection on top of the current camera        |
+| `F`               | toggle fisheye projection **on / off** for the current camera   |
 | `R`               | reset the camera to exactly what the `.rt` file described       |
 | `A`               | toggle a debug X/Y/Z axis overlay on/off                        |
 
@@ -189,84 +122,89 @@ Every key press that changes the camera re-renders the full frame before returni
 
 ---
 
-## 🛠️ Instructions
+## 🧠 Concepts we worked through
 
-1. To compile
-```bash
-make
-```
+### 📐 Why a ray is just a point and a direction
 
-2. Run
-```bash
-./miniRT scenes/minimalist.rt
-```
+A ray is nothing more than `origin + t * direction` — for any `t >= 0`, you get a point further along the ray. Nearly everything in the renderer boils down to solving for `t`: which `t` makes the ray touch a sphere, a plane, or a cylinder. Once direction is normalised, `t` is also literally the distance from the origin, which is why every other part of the renderer trusts `t` as a real-world distance (for picking the closest hit, or for shadow-ray distance checks).
 
-3. Clean object files
-```bash
-make clean
-```
+### 🔄 Why we trace rays backward — camera → object → light
 
-4. Remove all generated files
-```bash
-make fclean
-```
+Physically, light starts at the source and scatters in every direction until, by chance, some of it reaches the eye. Simulating that literally would mean firing rays out from every light and hoping a tiny fraction happens to land on a pixel — almost all of that work is wasted. We flip the direction instead: fire one ray per pixel from the camera, find what it hits, then fire a second, short ray from that hit point straight at each light asking a single yes/no question — "is anything in the way?" Every ray computed this way directly contributes to the final image; none are spent searching for a path that might never arrive. It isn't how light actually travels, but for direct lighting with no bounces it produces the same picture, for a fraction of the rays a physically forward simulation would need.
 
-5. Rebuild from scratch
-```bash
-make re
-```
+### 🎯 Why sphere intersection reduces to a quadratic equation
+
+Substituting the ray equation into the sphere equation `|P - centre|² = r²` produces a classic quadratic in `t`. Its discriminant tells you how many times the ray crosses the sphere (0, 1, or 2), and the smaller positive root is the entry point — the surface the camera actually sees. It's the same shape of problem for the cylinder body, just projected onto the plane perpendicular to the axis first.
+
+### 🩹 Why every hit needs an epsilon offset
+
+A ray that just bounced off a surface starts its next test (a shadow ray, for example) *at* that surface. Floating-point rounding means the ray can register a near-zero self-intersection with the very object it came from. Every hit test rejects `t` below a small epsilon for exactly this reason — skip it, and lit surfaces come out speckled with dark "acne" from a surface shadowing itself.
+
+### 🪞 Why the normal has to face the ray
+
+A surface normal always points a fixed way (outward, for a sphere), but the ray can approach from either side. Shading math (`dot(normal, light_dir)`) only makes sense if the normal points back *toward* the ray's origin side, so every hit test flips the normal when it's pointing the same way as the incoming ray. Skip this, and the underside of a surface shades as if it were lit from behind.
+
+### 🧭 Why the camera needs an orthonormal basis
+
+To turn a 2D pixel into a 3D ray you need three mutually perpendicular axes: forward (parsed from the file), right, and up. `right` comes from `cross(forward, world_up)` — which collapses to a zero vector if the camera looks straight up or down, since forward and world_up become parallel. The fix is a fallback reference axis for exactly that case, computed once when the camera is built or rotated.
+
+### 🌐 Why rectilinear projection has a hard breaking point near FOV 180°
+
+The standard camera formula maps a pixel to a ray angle via `offset = tan(θ)`, where `θ` is half the FOV. That's fine until `θ` approaches 90° (FOV → 180°): `tan(θ)`, and the true camera-to-plane distance `R·sec(θ)`, both run off toward infinity, because the edge ray becomes parallel to a flat image plane and never actually crosses it. Rather than rewriting the whole projection, we clamp the parsed FOV a hair below 180° — the subject only requires we not crash or produce garbage at the edge of the allowed range, not that we render a mathematically perfect 180°.
+
+### 🐟 Why the fisheye toggle exists, and what it trades away
+
+Fisheye swaps `tan(θ)` for a direct linear mapping, `offset = R·θ` — equivalent to projecting rays onto a curved dome instead of a flat plane. Equal angle steps land at equal spacing on a dome no matter how wide `θ` gets, so it never blows up the way the flat-plane version does. The trade-off: unwrapping a curved surface onto a flat screen bends straight lines, in exchange for keeping objects a more consistent size near the frame edges instead of the "stretched" look rectilinear gives at wide FOV. `F` swaps between the two live so the difference is easy to see on the same scene.
+
+### 📏 Why every direction vector gets normalised before it's used
+
+A vector carries both a direction and a length; `dot()` only collapses to a clean `cos(θ)` when both inputs are unit length. Skip normalising, and every dot product used for shading or angle comparisons gets scaled by whatever leftover magnitude the raw vector had — no crash, just quietly wrong brightness. Normalising once, right after a vector is computed (camera basis at parse time, ray direction in `ray_init`), keeps that assumption true everywhere else in the codebase without re-deriving it per call.
+
+### 🌗 Why closest-t, not first-hit, decides what you see
+
+A scene with three overlapping objects means a ray can hit more than one of them. Only the *nearest* hit is visible — everything else is behind it. That's why the hit loop keeps shrinking its search window (`t_max`) to the closest `t` found so far as it walks every object, rather than stopping at the first one it happens to test.
 
 ---
 
-## ▶️ Usage examples
+## 📦 About the Hit Record (`t_hit`)
 
-### Render a scene
-```bash
-./miniRT scenes/minimalist.rt
-./miniRT scenes/full.rt
-```
+A single boolean — "did the ray hit something?" — isn't enough information to shade a pixel. Shading needs to know *where* the ray landed, *which way* the surface faces there, *how far away* it is, and *which object* it belongs to (for its colour). That's what `t_hit` bundles together: `t`, `point`, `normal`, and `obj`.
 
-### Or via the Makefile's own scene shortcuts
-```bash
-make run    # renders scenes/minimalist.rt
-make run2   # renders scenes/full.rt
-```
+### A simple mental picture
 
-### Controls once the window is open
 ```text
-Esc / red ✕   quit
-←  →          rotate camera left / right
-↑  ↓          rotate camera up / down
-J  L          pan camera left / right
-I  K          pan camera up / down
-+  -          dolly camera forward / backward (Z axis)
-1  2          narrow / widen FOV (zoom in / out)
-F             toggle fisheye projection
-R             reset camera to the scene file's original view
-A             toggle the X/Y/Z debug axes
+        ray
+         │
+   ●─────┼────────────●
+ sphere   │           plane
+          │
+          ▼
+      t_hit {
+        t      = distance along the ray
+        point  = origin + t * direction
+        normal = surface normal at that point, facing the ray
+        obj    = the object that owns this surface
+      }
 ```
+
+When a ray could hit several objects, the loop keeps re-testing with a shrinking `t_max` and only overwrites the `t_hit` when a closer one turns up. By the time every object has been checked, the surviving `t_hit` is exactly the one thing the camera can see through that pixel — everything the shader needs, and nothing it doesn't.
 
 ---
 
-## 🧪 Testing notes
+## 🎁 Bonus features
 
-### Leak-check a scene
+### 💡 Multi-light support
+
+The mandatory spec allows exactly one `L` per scene. The bonus build lifts that restriction — a `.rt` file can declare several `L` lines, and each one contributes its own diffuse term and its own independent shadow ray at every hit point, summed together. It's the same "sum across every light" logic already covered above; the bonus build just removes the single-light limit that fed it, and the parser's duplicate-check that rejects a second `A` or `C` deliberately does not apply to `L`.
+
+### ✨ Specular highlights
+
+Diffuse alone makes a lit surface look flat and matte — real materials also throw back a small, bright highlight wherever the surface happens to be angled exactly right to bounce a light straight into the camera. We add that with the Phong model: reflect the light direction around the surface normal, then raise `max(0, dot(reflect_dir, view_dir))` to a shininess exponent, so the highlight falls off sharply instead of fading gradually the way diffuse does. It's added on top of ambient + diffuse per light, and gated by the same shadow ray already used for diffuse — no visible light, no highlight either.
+
 ```bash
-make testv    # valgrind --leak-check=full on scenes/minimalist.rt
-make testv2   # valgrind --leak-check=full on scenes/full.rt
+make bonus
+./miniRT scenes/multi_light.rt
 ```
-
-### `scenes/broken.rt`
-Built to exercise the parser's error paths one at a time — each malformed line is commented out except the one currently under test, so uncommenting a different line targets a different failure: duplicate `A`, an out-of-range ambient ratio, a negative sphere diameter, an out-of-range plane normal, an out-of-range cylinder colour.
-
-### Useful things to test
-- every numeric field just inside and just outside its valid range
-- a scene with two or more `L` lines — lighting should visibly sum across all of them
-- extra spaces/tabs between fields, empty lines, `#`-only lines
-- a camera direction pointing straight up or down (`0,1,0` / `0,-1,0`)
-- rotating the camera with the arrow keys, then pressing `R` to confirm it snaps back exactly
-- `norminette srcs/ includes/` — zero errors expected
-- `valgrind --leak-check=full --show-leak-kinds=all` on every scene, including error paths
 
 ---
 
@@ -279,6 +217,7 @@ References used to understand the project topic:
 AI was used for referencing, concept clarifications, visualisation and formula explanations
 
 ---
+
 ## 🌱 Final thought
 
-The surprise was that wrong math doesn't necessary crash, it renders quietly wrong: a stretched sphere, a cross product whose swapped arguments happened to cancel out and look correct until a new scene exposed it. To debug, we added in tools(keys,axis) to help us visualise to find the bug, before we analysed the code. The geometry only clicked once we saw it spatially and understanding that made the project easier. ✨
+We were surprised when our wrong math didn't crash the program but rendered quietly wrong: a stretched sphere, a swapped cross product that cancelled out and looked right until a new scene exposed it. Chasing bugs like that made the math feel real: vectors and dot products turning into shadows, highlights, a sphere that actually looks round. The closer we followed light's actual behaviour, the more real the render looked, and the more we understood exactly what the math was trying to show us. ✨
