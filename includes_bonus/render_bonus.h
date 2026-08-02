@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 19:02:28 by zchoo             #+#    #+#             */
-/*   Updated: 2026/08/02 19:02:29 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/02 20:15:39 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "parse_bonus.h"
 # include "ray_bonus.h"
+# include "camera_bonus.h"
 # include "vec3_bonus.h"
 # include "mlx_helper_bonus.h"
 
@@ -41,8 +42,6 @@ int		hit_cylinder_obj(t_object *obj, t_ray_segment seg, t_hit *hit);
 int		hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit);
 
 // shading.c
-t_ray	camera_ray(t_scene *scene, int x, int y);
-t_ray	camera_ray_fisheye(t_scene *scene, int x, int y);
 t_vec3	shade_hit(t_scene *scene, t_hit *hit);
 
 // render.c

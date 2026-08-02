@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/19 19:25:59 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/02 19:51:27 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@
 // # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
 # define ASPECT 1.77778
 # define FOV_MAX 180
+
+// highlight brightness
+# define SPECULAR_STRENGTH 0.45
+// highlight sharpness
+//  8-16: broad, matte highlight
+// 32-64: moderately shiny
+//  128+: small, polished highlight
+# define SHININESS 64.0
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */

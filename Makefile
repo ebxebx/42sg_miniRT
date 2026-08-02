@@ -44,7 +44,8 @@ SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/parse/parse_utils2.c \
        $(SRCS_DIR)/parse/parse_utils_split.c
 
-BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS))
+BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS)) \
+             $(BONUS_SRCS_DIR)/camera/camera_ray_bonus.c
 
 # Object files
 OBJS =$(SRCS:.c=.o)

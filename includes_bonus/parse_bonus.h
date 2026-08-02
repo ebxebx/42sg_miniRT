@@ -18,7 +18,6 @@
 # include <errno.h>
 # include <math.h>
 # include "vec3_bonus.h"
-# include "camera_bonus.h"
 
 typedef struct s_scene	t_scene;
 typedef struct s_object	t_object;
