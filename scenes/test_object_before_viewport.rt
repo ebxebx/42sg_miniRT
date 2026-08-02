@@ -1,0 +1,20 @@
+# Test: an object between the camera and the virtual viewport.
+#
+# camera position:       z = 0.00
+# sphere extent:         z = 0.05 to 0.95
+# virtual viewport:      z = 1.00
+#
+# Primary rays start at the camera, so they should hit this sphere before
+# reaching the viewport.  At a 70-degree FOV the sphere covers every camera
+# ray.  Expected result: the whole window is red (brightest near the centre),
+# not black.
+
+A 0.25 255,255,255
+
+C 0,0,0 0,0,1 70
+
+# Put the light at the camera so the camera-facing surface is clearly lit.
+L 0,0,0 0.75 255,255,255
+
+# Centre z=0.5, diameter=0.9 (radius=0.45): wholly before viewport z=1.
+sp 0,0,0.5 0.9 255,0,0
