@@ -97,7 +97,6 @@ int	close_window(t_scene *scene)
 		free_memory(scene->mlx);
 		scene->mlx = NULL;
 	}
-	free_axes(scene->axes);
 	scene_free(scene);
 	exit(0);
 	return (0);

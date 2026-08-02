@@ -12,41 +12,11 @@
 
 #include "miniRT_bonus.h"
 
-static void	build_camera_ray(t_scene *scene, int x, int y, t_ray *ray)
-{
-	if (scene->show_fisheye)
-		*ray = camera_ray_fisheye(scene, x, y);
-	else
-		*ray = camera_ray(scene, x, y);
-}
-
 // Trace one ray per pixel across the whole image, shade whatever it hits
 // (or paint black on a miss), then blit the finished image to the window
 void	render_scene(t_scene *scene)
 {
-	int		x;
-	int		y;
-	t_ray	ray;
-	t_hit	hit;
-	t_vec3	color;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			build_camera_ray(scene, x, y, &ray);
-			if ((vec3_equal(ray.direction, vec3_zero()) == 0)
-				&& hit_scene(scene, ray, INFINITY, &hit))
-				color = shade_hit(scene, &hit);
-			else
-				color = vec3_zero();
-			my_mlx_pixel_put(scene->mlx, x, y, pack_color(color));
-			x++;
-		}
-		y++;
-	}
+	render_multithreaded(scene);
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img,
 		0, 0);
 }

@@ -18,10 +18,27 @@
 # include "camera_bonus.h"
 # include "vec3_bonus.h"
 # include "mlx_helper_bonus.h"
+# include <pthread.h>
 
 typedef struct s_hit	t_hit;
 
 # define HIT_EPSILON 0.001
+# define MAX_RENDER_THREADS 32
+
+typedef struct s_render_job
+{
+	t_scene	*scene;
+	int		y_start;
+	int		y_end;
+}	t_render_job;
+
+typedef struct s_render_pool
+{
+	pthread_t		threads[MAX_RENDER_THREADS];
+	t_render_job	jobs[MAX_RENDER_THREADS];
+	int				created[MAX_RENDER_THREADS];
+	int				count;
+}	t_render_pool;
 
 // color_utils.c
 t_vec3	vec3_mul(t_vec3 a, t_vec3 b);
@@ -46,6 +63,7 @@ t_vec3	shade_hit(t_scene *scene, t_hit *hit);
 
 // render.c
 void	render_scene(t_scene *scene);
+void	render_multithreaded(t_scene *scene);
 int		init_mlx(t_mlx *mlx);
 int		close_window(t_scene *scene);
 

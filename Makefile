@@ -45,7 +45,8 @@ SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/parse/parse_utils_split.c
 
 BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS)) \
-             $(BONUS_SRCS_DIR)/camera/camera_ray_bonus.c
+             $(BONUS_SRCS_DIR)/camera/camera_ray_bonus.c \
+             $(BONUS_SRCS_DIR)/render/render_threads_bonus.c
 
 # Object files
 OBJS =$(SRCS:.c=.o)
@@ -83,7 +84,7 @@ $(NAME): $(OBJS) $(MLX_LIB)
 bonus: libft $(BONUS_NAME)
 
 $(BONUS_NAME): $(BONUS_OBJS) $(MLX_LIB)
-	$(CC) $(CFLAGS) $(DEPFLAGS) $(BONUS_OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(BONUS_NAME)
+	$(CC) $(CFLAGS) $(DEPFLAGS) $(BONUS_OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -pthread -o $(BONUS_NAME)
 	@echo "✓ built $(BONUS_NAME)"
 
 $(LIBFT):
@@ -127,7 +128,7 @@ srcs/%.o: srcs/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 srcs_bonus/%.o: srcs_bonus/%.c
-	@$(CC) $(CFLAGS) $(BONUS_INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(BONUS_INCLUDES) -pthread -c $< -o $@
 
 # Remove object and dependency files
 clean:
