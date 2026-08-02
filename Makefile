@@ -49,7 +49,7 @@ BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS)) \
              $(BONUS_SRCS_DIR)/render/render_threads_bonus.c
 
 # Object files
-OBJS =$(SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 # Dependency files
@@ -75,15 +75,15 @@ DEPFLAGS = -MMD -MP
 .DEFAULT_GOAL := all
 
 # build the target $(NAMES)
-all: libft $(NAME)
+all: $(NAME)
 
-$(NAME): $(OBJS) $(MLX_LIB)
+$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(NAME)
 	@echo "✓ built $(NAME)"
 
-bonus: libft $(BONUS_NAME)
+bonus: $(BONUS_NAME)
 
-$(BONUS_NAME): $(BONUS_OBJS) $(MLX_LIB)
+$(BONUS_NAME): $(BONUS_OBJS) $(LIBFT) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(BONUS_OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -pthread -o $(BONUS_NAME)
 	@echo "✓ built $(BONUS_NAME)"
 
@@ -115,12 +115,12 @@ docker-run:
 	./docker/run.sh bash -c "make && ./miniRT $(ARGS2)"
 
 #run with valgrind and run with args
-testv: fclean $(NAME)
-	$(MAKE) CFLAGS="$(CFLAGS) -g"
+testv: fclean
+	$(MAKE)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
 
-testv2: fclean $(NAME)
-	$(MAKE) CFLAGS="$(CFLAGS) -g"
+testv2: fclean
+	$(MAKE)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS2)
 
 # Compile .c files to .o files and generate dependency files
@@ -144,4 +144,4 @@ fclean: clean
 re: fclean all
 
 # Phony targets (commands and not files)
-.PHONY: all bonus clean fclean re libft testv run run2 docker-run
+.PHONY: all bonus clean fclean re libft testv testv2 run run2 run3 run4 docker-run
