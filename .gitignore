@@ -1,6 +1,7 @@
 *.o
 *.d
 miniRT
+miniRT_bonus
 test
 *.out
 *.gch

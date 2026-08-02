@@ -1,0 +1,25 @@
+# A bright, colourful gallery using currently supported bonus elements.
+# Ambient light
+A 0.24 190,205,235
+
+# Camera: elevated slightly and looking into the gallery
+C 0,3,-20 0,-0.1,1 65
+
+# Warm key, cool fill, and violet back light
+L -8,10,-10 0.65 255,210,165
+L 9,6,-3 0.50 135,190,255
+L 0,8,16 0.35 235,145,255
+
+# Floor and back wall
+pl 0,-3,0 0,1,0 95,105,130
+pl 0,0,20 0,0,-1 65,75,110
+
+# Main sculpture and surrounding forms
+sp 0,0,8 5.5 70,145,255
+sp -6,-1.2,5 3.2 255,105,115
+sp 6,-1.0,9 3.8 75,225,165
+
+# Pedestals and accent columns
+cy -3,-1,12 0,1,0 2.4 4 255,195,70
+cy 3,-1,4 0,1,0 2.0 4 185,110,245
+cy 0,-2,15 0,1,0 1.2 2 70,230,235

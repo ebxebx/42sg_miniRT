@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vec3_bonus.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/24 16:34:35 by zchoo             #+#    #+#             */
+/*   Updated: 2026/07/19 19:46:11 by zchoo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef VEC3_BONUS_H
+# define VEC3_BONUS_H
+
+# include <math.h>
+
+# define EPSILON 1e-9
+
+// 3D vector, can represent pos, dir, col, field of view(fov)
+typedef struct s_vec3
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_vec3;
+
+// vec3_ops.c
+t_vec3		vec3_add(t_vec3 a, t_vec3 b);
+t_vec3		vec3_sub(t_vec3 a, t_vec3 b);
+t_vec3		vec3_scale(t_vec3 v, double s);
+double		vec3_dot(t_vec3 a, t_vec3 b);
+t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
+
+// vec3_ops2.c
+t_vec3		vec3_norm(t_vec3 v);
+double		vec3_len(t_vec3 v);
+t_vec3		vec3_neg(t_vec3 v);
+t_vec3		vec3_rotate(t_vec3 v, t_vec3 axis, double angle);
+
+// vec3_helper.c
+t_vec3		vec3_init(double x, double y, double z);
+t_vec3		vec3_dup(t_vec3 v);
+t_vec3		vec3_zero(void);
+int			vec3_equal(t_vec3 a, t_vec3 b);
+int			double_equal(double a, double b);
+
+// vec3_test.c
+int			test_vec3(void);
+
+#endif

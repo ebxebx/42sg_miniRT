@@ -1,0 +1,42 @@
+# renderer needs a scene that exercises every intersection function — sphere, plane, and cylinder all at once. 
+# When you integrate parser + renderer in week 2, this is the first file you throw at it. 
+# If anything is broken, you'll see it immediately.
+# TO-DO: decide whether to remove comments in .rt
+
+#ambient strength/ratio RGB_col( , , )
+# Every object receives 20% white base light, so shadowed areas are not completely black.
+A 0.2 255,255,255
+
+#camera pos( , , ) camera_dir( , , ) field_of_view(in deg)
+# fov x-axis only, y-axis follows aspect ratio,
+#The camera is 5 units behind the origin on the Z axis. It looks forward along the positive Z direction.
+# C 0,0,-15 0,0,1 70
+C 0,0,-15 0,0,0.5 70
+
+#L pos( , , ) brightness_ratio   RGB_col( , , )
+#In mandatory miniRT, the subject includes RGB for light, but it says this colour is unused in mandatory. So for mandatory, the important parts are usually:
+#position = where the light comes from
+#brightness = how strong the diffuse light is
+# The light is above the scene because y = 3, left because x = -2, and slightly in front of the sphere/cylinder because z = -1.
+L -2,3,-1 0.8 255,255,255
+L 5,4,-2 0.5 100,150,255
+
+#sp   sphere_center( , , )   diameter( , , )   RGB_colour( , , )
+sp 0,0,3 2 255,0,0
+sp 10,0,3 2 255,255,0
+
+#pl   point_on_pl( , , )   normal_vector( , , )   RGB_colour( , , )
+#The point (0, -2, 0) means the plane passes through y = -2.
+#The normal (0, 1, 0) points upward.
+#So this is basically a floor
+pl 0,-2,0 0,1,0 100,100,100
+
+#cy   center( , , )   axis_vector( , , )   diameter   height   RGB_colour( , , )
+# cy 0,0,0 1,0,0 0.1 20 0,0,0
+# cy 0,0,0 0,1,0 0.1 20 0,0,0
+cy 0,0,0 0,1,0.5 0.1 20 0,0,0
+# cy 0,0,0 0,0,1 0.1 20 0,0,0
+
+# cy 0,0,3 0,1,0 1 4 0,0,255
+# cy 2,0,10 0,1,0 1 4 0,255,255
+# cy 5,0,0 0,1,0 1 4 0,100,255

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   render_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/02 18:40:14 by zchoo             #+#    #+#             */
-/*   Updated: 2026/08/02 18:40:15 by zchoo            ###   ########.fr       */
+/*   Created: 2026/08/02 19:02:28 by zchoo             #+#    #+#             */
+/*   Updated: 2026/08/02 19:02:29 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#ifndef RENDER_BONUS_H
+# define RENDER_BONUS_H
 
-# include "parse.h"
-# include "ray.h"
-# include "vec3.h"
-# include "mlx_helper.h"
+# include "parse_bonus.h"
+# include "ray_bonus.h"
+# include "vec3_bonus.h"
+# include "mlx_helper_bonus.h"
 
 typedef struct s_hit	t_hit;
 

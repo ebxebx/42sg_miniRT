@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   axes.h                                             :+:      :+:    :+:   */
+/*   mlx_helper_bonus.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/02 18:39:49 by zchoo             #+#    #+#             */
-/*   Updated: 2026/08/02 18:39:50 by zchoo            ###   ########.fr       */
+/*   Created: 2026/06/03 18:19:54 by zchoo             #+#    #+#             */
+/*   Updated: 2026/06/06 12:52:01 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AXES_H
-# define AXES_H
+#ifndef MLX_HELPER_BONUS_H
+# define MLX_HELPER_BONUS_H
 
-# include "parse.h"
+# include "../minilibx-linux/mlx.h"
 
-void	init_axes(t_scene *scene);
-void	free_axes(t_object *axes);
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_mlx;
+
+void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 #endif

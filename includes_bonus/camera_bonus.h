@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   camera_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/02 18:39:52 by zchoo             #+#    #+#             */
-/*   Updated: 2026/08/02 18:39:53 by zchoo            ###   ########.fr       */
+/*   Created: 2026/08/02 18:17:57 by zchoo             #+#    #+#             */
+/*   Updated: 2026/08/02 18:53:17 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef CAMERA_BONUS_H
+# define CAMERA_BONUS_H
+
+# include "vec3_bonus.h"
 
 typedef struct s_fisheye_math
 {

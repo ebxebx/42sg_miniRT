@@ -1,6 +1,9 @@
 NAME = miniRT
+BONUS_NAME = miniRT_bonus
 ARGS = ./scenes/minimalist.rt
 ARGS2 = ./scenes/full.rt
+ARGS3 = ./scenes_bonus/minimalist_bonus.rt
+ARGS4 = ./scenes_bonus/full_bonus.rt
 
 LIBFT_DIR = ./libft
 LIBFT     = $(LIBFT_DIR)/libft.a
@@ -13,6 +16,7 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 # Source directory
 SRCS_DIR = srcs
+BONUS_SRCS_DIR = srcs_bonus
 
 # Source files
 SRCS = $(SRCS_DIR)/miniRT.c \
@@ -40,19 +44,24 @@ SRCS = $(SRCS_DIR)/miniRT.c \
        $(SRCS_DIR)/parse/parse_utils2.c \
        $(SRCS_DIR)/parse/parse_utils_split.c
 
+BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS))
+
 # Object files
 OBJS =$(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 # Dependency files
 DEPS = $(OBJS:.o=.d)
+BONUS_DEPS = $(BONUS_OBJS:.o=.d)
 
 # Include .d files only if they exists ignore otherwise
--include $(DEPS)
+-include $(DEPS) $(BONUS_DEPS)
 
 # Compiler and Flags(-MMD generate dependency files to update if .h files are updated -MP prevents errors for .h)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP -g3 $(INCLUDES)
 INCLUDES = -I./includes/
+BONUS_INCLUDES = -I./includes_bonus/
 LIB_FLAGS = -L$(LIBFT_DIR) -lft -lm
 ifeq ($(PRINTF_FLOAT),1)
 	LIB_FLAGS += -lm
@@ -69,6 +78,12 @@ all: libft $(NAME)
 $(NAME): $(OBJS) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(NAME)
 	@echo "✓ built $(NAME)"
+
+bonus: libft $(BONUS_NAME)
+
+$(BONUS_NAME): $(BONUS_OBJS) $(MLX_LIB)
+	$(CC) $(CFLAGS) $(DEPFLAGS) $(BONUS_OBJS) $(LIB_FLAGS) $(MLX_FLAGS) -o $(BONUS_NAME)
+	@echo "✓ built $(BONUS_NAME)"
 
 $(LIBFT):
 	$(LIBFT_MAKE)
@@ -87,6 +102,12 @@ run: libft $(NAME)
 run2: libft $(NAME)
 	./$(NAME) $(ARGS2)
 
+run3: libft $(BONUS_NAME)
+	./$(BONUS_NAME) $(ARGS3)
+
+run4: libft $(BONUS_NAME)
+	./$(BONUS_NAME) $(ARGS4)
+
 #build and run inside the Docker/Linux container (with XQuartz display forwarding)
 docker-run:
 	./docker/run.sh bash -c "make && ./miniRT $(ARGS2)"
@@ -104,18 +125,21 @@ testv2: fclean $(NAME)
 srcs/%.o: srcs/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+srcs_bonus/%.o: srcs_bonus/%.c
+	@$(CC) $(CFLAGS) $(BONUS_INCLUDES) -c $< -o $@
+
 # Remove object and dependency files
 clean:
-	rm -f $(OBJS) $(DEPS)
+	rm -f $(OBJS) $(BONUS_OBJS) $(DEPS) $(BONUS_DEPS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
 
 # Remove program
 fclean: clean
-	rm -f $(NAME) $(LIBFT)
+	rm -f $(NAME) $(BONUS_NAME) $(LIBFT)
 
 # Delete everything and rebuilt from scratch
 re: fclean all
 
 # Phony targets (commands and not files)
-.PHONY: all clean fclean re libft testv run run2 docker-run
+.PHONY: all bonus clean fclean re libft testv run run2 docker-run
