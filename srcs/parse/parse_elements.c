@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: zeon <zeon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/15 20:22:05 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/06 00:45:07 by zeon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,20 @@ static int	parse_orient(const char *token, t_vec3 *dir)
 // tan(fov_deg/2 * pi/180) simplifies to tan(fov_deg * pi/360)
 void	build_camera_axes(t_camera *cam)
 {
-	t_vec3	world_up;
+	t_vec3	ref_up;
+	t_vec3	old_right;
+	t_vec3	new_right;
 
-	world_up.x = 0;
-	world_up.y = 1;
-	world_up.z = 0;
-	if (fabs(vec3_dot(cam->dir, world_up)) > 0.99)
-	{
-		world_up.y = 0;
-		world_up.z = 1;
-	}
-	cam->right = vec3_norm(vec3_cross(cam->dir, world_up));
-	cam->up = vec3_cross(cam->right, cam->dir);
+	old_right = cam->right;
+	ref_up = vec3_init(0, 1, 0);
+	if (fabs(vec3_dot(cam->dir, ref_up)) > 0.99)
+		ref_up = vec3_init(0, 0, 1);
+	new_right = vec3_norm(vec3_cross(cam->dir, ref_up));
+	if (vec3_len(old_right) > EPSILON
+		&& vec3_dot(new_right, old_right) < 0.0)
+		new_right = vec3_neg(new_right);
+	cam->right = new_right;
+	cam->up = vec3_norm(vec3_cross(cam->right, cam->dir));
 	cam->half_w = tan(cam->fov * M_PI / 360.0);
 }
 
