@@ -1,0 +1,25 @@
+# RGB multi-light laboratory.
+# The objects are deliberately neutral: nearly all visible colour comes from
+# the three lights, making their individual contributions easy to compare.
+
+A 0.04 255,255,255
+C 0,3,-18 0,-0.12,1 58
+
+# Red light from the left, green from above, and blue from the right.
+L -9,4,-2 0.85 255,35,35
+L 0,11,5 0.75 35,255,70
+L 9,4,-2 0.85 35,90,255
+
+# Neutral floor and back wall display three independently cast shadows.
+pl 0,-3,0 0,1,0 210,210,210
+pl 0,0,20 0,0,-1 185,185,185
+
+# The large white sphere mixes all three lights across its curved surface.
+sp 0,0,8 6 245,245,245
+
+# Small foreground spheres block different lights and separate their shadows.
+sp -5,-1.5,5 3 235,235,235
+sp 5,-1.5,5 3 235,235,235
+
+# A tilted cylinder gives long, clearly separated coloured shadows.
+cy 0,-1,14 0.45,1,0.15 2.4 5 230,230,230

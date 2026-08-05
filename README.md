@@ -203,7 +203,7 @@ Diffuse alone makes a lit surface look flat and matte — real materials also th
 
 ```bash
 make bonus
-./miniRT scenes/multi_light.rt
+./miniRT scenes_bonus/multi_light.rt
 ```
 
 ---
