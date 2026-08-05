@@ -49,6 +49,8 @@ static t_object	*new_plane(t_vec3 point, t_vec3 normal, t_vec3 colour)
 		return (NULL);
 	obj->type = PLANE;
 	obj->colour = colour;
+	obj->checker_colour = colour;
+	obj->is_checker = 0;
 	obj->shape.pl.point = point;
 	obj->shape.pl.normal = normal;
 	obj->next = NULL;
@@ -68,6 +70,8 @@ static t_object	*new_cylinder(t_vec3 centre, t_vec3 axis, double *size,
 		return (NULL);
 	obj->type = CYLINDER;
 	obj->colour = colour;
+	obj->checker_colour = colour;
+	obj->is_checker = 0;
 	obj->shape.cy.centre = centre;
 	obj->shape.cy.axis = axis;
 	obj->shape.cy.radius = size[0] / 2.0;
@@ -84,9 +88,10 @@ int	parse_plane(char **tokens, t_scene *scene)
 	t_vec3		colour;
 	t_object	*obj;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
+	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[5])
 	{
-		ft_putstr_fd("Error: pl requires <point> <normal> <R,G,B>\n", 2);
+		ft_putstr_fd("Error: pl requires <point> <normal> <R,G,B>", 2);
+		ft_putendl_fd(" [checker_colour R,G,B]", 2);
 		return (1);
 	}
 	if (parse_vec3(tokens[1], &point) == -1)
@@ -100,6 +105,8 @@ int	parse_plane(char **tokens, t_scene *scene)
 	obj = new_plane(point, normal, colour);
 	if (!obj)
 		return (ft_putstr_fd("Error: malloc failed for plane\n", 2), 1);
+	if (set_checker(obj, tokens[4]))
+		return (free(obj), 1);
 	add_object(scene, obj);
 	return (0);
 }
@@ -114,7 +121,7 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	t_object	*obj;
 
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5]
-		|| tokens[6])
+		|| tokens[7])
 		return (ft_putstr_fd("Error: cy requires <centre> <axis> <diameter>"
 				" <height> <R,G,B>", 2), 1);
 	if (parse_vec3(tokens[1], &centre) == -1)
@@ -129,6 +136,8 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	obj = new_cylinder(centre, axis, size, colour);
 	if (!obj)
 		return (ft_putstr_fd("Error: malloc failed for cylinder\n", 2), 1);
+	if (set_checker(obj, tokens[6]))
+		return (free(obj), 1);
 	add_object(scene, obj);
 	return (0);
 }

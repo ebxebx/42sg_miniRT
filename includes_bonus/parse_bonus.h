@@ -45,6 +45,7 @@ void	add_object(t_scene *scene, t_object *obj);
 // parse_shapes2.c
 int		parse_plane(char **tokens, t_scene *scene);
 int		parse_cylinder(char **tokens, t_scene *scene);
+int		set_checker(t_object *obj, char *token);
 
 // parse_utils_split.c
 void	free_tokens(char **arr);

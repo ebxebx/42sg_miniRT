@@ -46,6 +46,8 @@ SRCS = $(SRCS_DIR)/miniRT.c \
 
 BONUS_SRCS = $(patsubst $(SRCS_DIR)/%.c,$(BONUS_SRCS_DIR)/%_bonus.c,$(SRCS)) \
              $(BONUS_SRCS_DIR)/camera/camera_ray_bonus.c \
+			 $(BONUS_SRCS_DIR)/parse/parse_pattern_bonus.c \
+			 $(BONUS_SRCS_DIR)/render/pattern_bonus.c \
              $(BONUS_SRCS_DIR)/render/render_threads_bonus.c
 
 # Object files

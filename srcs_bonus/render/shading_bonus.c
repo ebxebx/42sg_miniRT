@@ -62,13 +62,15 @@ static t_vec3	light_contribution(t_scene *scene, t_hit *hit, t_light *light)
 	t_vec3	light_dir;
 	t_vec3	diffuse;
 	t_vec3	specular;
+	t_vec3	base_colour;
 	double	intensity;
 
 	light_dir = vec3_norm(vec3_sub(light->pos, hit->point));
 	intensity = vec3_dot(hit->normal, light_dir);
 	if (intensity <= 0.0)
 		return (vec3_zero());
-	diffuse = vec3_scale(vec3_mul(hit->obj->colour, light->colour),
+	base_colour = surface_colour(hit);
+	diffuse = vec3_scale(vec3_mul(base_colour, light->colour),
 			light->brightness * intensity);
 	specular = specular_colour(scene, hit, light, light_dir);
 	return (vec3_add(diffuse, specular));
@@ -79,9 +81,11 @@ static t_vec3	light_contribution(t_scene *scene, t_hit *hit, t_light *light)
 t_vec3	shade_hit(t_scene *scene, t_hit *hit)
 {
 	t_vec3	color;
+	t_vec3	base_colour;
 	t_light	*light;
 
-	color = vec3_scale(vec3_mul(hit->obj->colour, scene->ambient.colour),
+	base_colour = surface_colour(hit);
+	color = vec3_scale(vec3_mul(base_colour, scene->ambient.colour),
 			scene->ambient.ratio);
 	light = scene->lights;
 	while (light)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: zeon <zeon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/08/02 21:12:31 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 17:59:44 by zeon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 // 32-64: moderately shiny
 //  128+: small, polished highlight
 # define SHININESS 64.0
+
+// checkerboard
+# define CHECKER_SIZE 2.0
 
 /* ------------------------------------------------------------------ */
 /*  SCENE ELEMENTS                                                    */
@@ -117,6 +120,8 @@ typedef struct s_object
 {
 	t_type			type;
 	t_vec3			colour;
+	t_vec3			checker_colour;
+	int				is_checker;
 	t_shape			shape;
 	struct s_object	*next;
 }					t_object;

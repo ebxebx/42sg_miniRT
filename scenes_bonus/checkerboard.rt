@@ -1,0 +1,10 @@
+# Optional second object colour enables the checkerboard pattern.
+A 0.18 255,255,255
+C 0,4,-14 0,-0.22,1 60
+L -6,9,-5 0.85 255,245,225
+L 7,5,1 0.35 140,180,255
+
+# Checker floor, sphere, and cylinder.
+pl 0,-2,0 0,1,0 225,225,225 35,35,35
+sp -2,0,5 4 220,55,55 245,225,180
+cy 3,0,7 0,1,0 3 5 45,110,225 230,235,250

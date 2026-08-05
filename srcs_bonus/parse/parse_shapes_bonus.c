@@ -56,6 +56,8 @@ static t_object	*new_sphere(t_vec3 centre, double diameter, t_vec3 colour)
 		return (NULL);
 	obj->type = SPHERE;
 	obj->colour = colour;
+	obj->checker_colour = colour;
+	obj->is_checker = 0;
 	obj->shape.sp.centre = centre;
 	obj->shape.sp.radius = diameter / 2.0;
 	obj->next = NULL;
@@ -65,9 +67,10 @@ static t_object	*new_sphere(t_vec3 centre, double diameter, t_vec3 colour)
 static int	parse_sphere_check_tokens(char **tokens, t_vec3 *centre,
 		double *diameter, t_vec3 *colour)
 {
-	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
+	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[5])
 	{
-		ft_putstr_fd("Error: sp requires <centre> <diameter> <R,G,B>\n", 2);
+		ft_putstr_fd("Error: sp requires <centre> <diameter> <R,G,B>", 2);
+		ft_putendl_fd(" [checker_colour R,G,B]", 2);
 		return (1);
 	}
 	if (parse_vec3(tokens[1], centre) == -1)
@@ -102,6 +105,8 @@ int	parse_sphere(char **tokens, t_scene *scene)
 		ft_putstr_fd("Error: malloc failed for sphere\n", 2);
 		return (1);
 	}
+	if (set_checker(obj, tokens[4]))
+		return (free(obj), 1);
 	add_object(scene, obj);
 	return (0);
 }

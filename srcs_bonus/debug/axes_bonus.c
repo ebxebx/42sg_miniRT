@@ -27,6 +27,8 @@ static t_object	*new_axis_seg(t_vec3 centre, t_vec3 axis, t_vec3 colour)
 		return (NULL);
 	obj->type = CYLINDER;
 	obj->colour = colour;
+	obj->checker_colour = colour;
+	obj->is_checker = 0;
 	obj->shape.cy.centre = centre;
 	obj->shape.cy.axis = axis;
 	obj->shape.cy.radius = AXIS_RADIUS;

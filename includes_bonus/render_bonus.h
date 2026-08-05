@@ -61,6 +61,9 @@ int		hit_scene(t_scene *scene, t_ray ray, double t_max, t_hit *hit);
 // shading.c
 t_vec3	shade_hit(t_scene *scene, t_hit *hit);
 
+// pattern.c
+t_vec3	surface_colour(t_hit *hit);
+
 // render.c
 void	render_scene(t_scene *scene);
 void	render_multithreaded(t_scene *scene);
