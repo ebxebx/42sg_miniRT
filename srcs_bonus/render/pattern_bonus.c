@@ -12,7 +12,11 @@
 
 #include "miniRT_bonus.h"
 
-// Build a stable tangent along a plane, including for horizontal planes.
+// Build one unit-length axis that lies on the plane's surface.
+// The tangent must be perpendicular to the plane normal, so it is produced
+// with a cross product against a reference direction. World-up is normally
+// used as that reference. If the normal is almost parallel to world-up, the
+// cross product would be nearly zero, so the X axis is used instead.
 static t_vec3	plane_tangent(t_vec3 normal)
 {
 	t_vec3	reference;
@@ -23,8 +27,13 @@ static t_vec3	plane_tangent(t_vec3 normal)
 	return (vec3_norm(vec3_cross(normal, reference)));
 }
 
-// Project onto the plane's local tangent axes. Ignoring the normal axis avoids
-// floating-point flicker when the plane lies exactly on a cell boundary.
+// Find the checker square containing a hit point on a plane.
+// First move the hit into coordinates relative to the plane's anchor point.
+// The tangent and bitangent form two perpendicular axes along the surface.
+// Projecting the local hit onto them produces its surface coordinates. Each
+// coordinate is divided by CHECKER_SIZE and floored to obtain a cell number;
+// adding both numbers gives the parity used to alternate the two colours.
+// The normal axis is ignored to avoid flicker near checker-cell boundaries.
 static long	plane_square(t_hit *hit)
 {
 	t_vec3	local;
@@ -40,8 +49,14 @@ static long	plane_square(t_hit *hit)
 	return (square);
 }
 
-// Choose between an object's two colours. Planes use two local surface axes;
-// curved objects retain the three-dimensional world-space pattern.
+// Return the material colour at the exact ray-hit position.
+// A solid object immediately returns its primary colour. Checker planes use
+// plane_square(), which keeps the grid attached to a rotated plane. Spheres
+// and cylinders currently use a three-dimensional world-space grid: their
+// X, Y, and Z cell numbers are added together. This is procedural mapping,
+// not UV mapping, so the pattern does not wrap around curved surfaces.
+// An even total selects the primary colour and an odd total selects the
+// optional checker colour parsed from the scene file.
 t_vec3	surface_colour(t_hit *hit)
 {
 	long	square;

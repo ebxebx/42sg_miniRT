@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/15 20:41:18 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 18:17:00 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ int	parse_plane(char **tokens, t_scene *scene)
 		return (ft_putstr_fd("Error: malloc failed for plane\n", 2), 1);
 	if (set_checker(obj, tokens[4]))
 		return (free(obj), 1);
-	add_object(scene, obj);
-	return (0);
+	return (add_object(scene, obj), 0);
 }
 
 // Parses: cy <centre x,y,z> <axis x,y,z> <diameter> <height> <R,G,B>
@@ -138,6 +137,5 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 		return (ft_putstr_fd("Error: malloc failed for cylinder\n", 2), 1);
 	if (set_checker(obj, tokens[6]))
 		return (free(obj), 1);
-	add_object(scene, obj);
-	return (0);
+	return (add_object(scene, obj), 0);
 }
