@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/15 21:46:30 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 19:16:02 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_object	*new_sphere(t_vec3 centre, double diameter, t_vec3 colour)
 static int	parse_sphere_check_tokens(char **tokens, t_vec3 *centre,
 		double *diameter, t_vec3 *colour)
 {
-	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[5])
+	if (invalid_shape_tokens(tokens, 3))
 	{
 		ft_putstr_fd("Error: sp requires <centre> <diameter> <R,G,B>", 2);
 		ft_putendl_fd(" [checker_colour R,G,B]", 2);

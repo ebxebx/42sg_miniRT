@@ -197,13 +197,54 @@ When a ray could hit several objects, the loop keeps re-testing with a shrinking
 
 The mandatory spec allows exactly one `L` per scene. The bonus build lifts that restriction — a `.rt` file can declare several `L` lines, and each one contributes its own diffuse term and its own independent shadow ray at every hit point, summed together. It's the same "sum across every light" logic already covered above; the bonus build just removes the single-light limit that fed it, and the parser's duplicate-check that rejects a second `A` or `C` deliberately does not apply to `L`.
 
+```bash
+make bonus
+./miniRT scenes_bonus/multi_light.rt
+```
+
 ### ✨ Specular highlights
 
 Diffuse alone makes a lit surface look flat and matte — real materials also throw back a small, bright highlight wherever the surface happens to be angled exactly right to bounce a light straight into the camera. We add that with the Phong model: reflect the light direction around the surface normal, then raise `max(0, dot(reflect_dir, view_dir))` to a shininess exponent, so the highlight falls off sharply instead of fading gradually the way diffuse does. It's added on top of ambient + diffuse per light, and gated by the same shadow ray already used for diffuse — no visible light, no highlight either.
 
 ```bash
 make bonus
-./miniRT scenes_bonus/multi_light.rt
+./miniRT scenes_bonus/specular_highlights.rt
+```
+### ✨ Checker boards
+
+The bonus parser enables a procedural checkerboard whenever an object has an optional second RGB colour. The normal object colour becomes the first set of squares, while the extra colour becomes the alternating set:
+
+```text
+pl <point> <normal> <R,G,B> <checker R,G,B>
+sp <centre> <diameter> <R,G,B> <checker R,G,B>
+cy <centre> <axis> <diameter> <height> <R,G,B> <checker R,G,B>
+```
+
+For example, this creates a light-grey and dark-grey checkerboard plane:
+
+```text
+pl 0,-2,0 0,1,0 225,225,225 35,35,35
+```
+
+At each hit point, the renderer calculates a checker-cell index and selects the
+first colour for even cells or the second colour for odd cells. Planes use two
+local axes along their surface, so their checkerboard follows the plane when it
+is rotated. Spheres and cylinders currently use a three-dimensional world-space
+grid rather than UV mapping, producing a procedural block pattern across their
+curved surfaces.
+
+The global square size is configured in `includes_bonus/miniRT_bonus.h`:
+
+```c
+# define CHECKER_SIZE 2.0
+```
+
+A smaller value produces more, finer squares; a larger value produces fewer,
+larger squares. Omitting the second RGB colour keeps the object solid.
+
+```bash
+make bonus
+./miniRT_bonus scenes_bonus/checkerboard.rt
 ```
 
 ---

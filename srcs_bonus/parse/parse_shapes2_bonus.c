@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 23:21:57 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/08/05 18:17:00 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 19:16:07 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	parse_plane(char **tokens, t_scene *scene)
 	t_vec3		colour;
 	t_object	*obj;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[5])
+	if (invalid_shape_tokens(tokens, 3))
 	{
 		ft_putstr_fd("Error: pl requires <point> <normal> <R,G,B>", 2);
 		ft_putendl_fd(" [checker_colour R,G,B]", 2);
@@ -119,8 +119,7 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	double		size[2];
 	t_object	*obj;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5]
-		|| tokens[7])
+	if (invalid_shape_tokens(tokens, 5))
 		return (ft_putstr_fd("Error: cy requires <centre> <axis> <diameter>"
 				" <height> <R,G,B>", 2), 1);
 	if (parse_vec3(tokens[1], &centre) == -1)

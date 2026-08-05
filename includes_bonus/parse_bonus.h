@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/08/05 18:27:44 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 19:15:48 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	add_object(t_scene *scene, t_object *obj);
 // parse_shapes2.c
 int		parse_plane(char **tokens, t_scene *scene);
 int		parse_cylinder(char **tokens, t_scene *scene);
+int		invalid_shape_tokens(char **tokens, int required);
 int		set_checker(t_object *obj, char *token);
 
 // parse_utils_split.c
