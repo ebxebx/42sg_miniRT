@@ -173,9 +173,9 @@ A single boolean — "did the ray hit something?" — isn't enough information t
 ### A simple mental picture
 
 ```text
-        ray
-         │
-   ●─────┼────────────●
+         ray
+          │
+   ●──────┼────────────●
  sphere   │           plane
           │
           ▼
