@@ -6,7 +6,7 @@
 /*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/07/19 19:25:59 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/05 19:45:03 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_object
 
 typedef struct s_hit
 {
-	/* distance — negative means no hit */
+	/* distance along the ray; valid only when the hit function returns true */
 	double			t;
 
 	/* hit position: origin + t * direction */

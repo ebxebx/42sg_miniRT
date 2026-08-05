@@ -173,18 +173,18 @@ A single boolean — "did the ray hit something?" — isn't enough information t
 ### A simple mental picture
 
 ```text
-         ray
-          │
-   ●──────┼────────────●
- sphere   │           plane
-          │
-          ▼
-      t_hit {
-        t      = distance along the ray
-        point  = origin + t * direction
-        normal = surface normal at that point, facing the ray
-        obj    = the object that owns this surface
-      }
+ray origin
+    ●
+    │
+    │  first intersection
+    ▼
+  ┌───────┐
+  │ sphere│  ← stored in t_hit
+  └───────┘
+    │
+    │  farther intersection
+    ▼
+──────────── plane
 ```
 
 When a ray could hit several objects, the loop keeps re-testing with a shrinking `t_max` and only overwrites the `t_hit` when a closer one turns up. By the time every object has been checked, the surviving `t_hit` is exactly the one thing the camera can see through that pixel — everything the shader needs, and nothing it doesn't.

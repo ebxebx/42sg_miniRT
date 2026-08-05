@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zeon <zeon@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/08/05 17:59:44 by zeon             ###   ########.fr       */
+/*   Updated: 2026/08/05 19:39:06 by zchoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ typedef struct s_object
 
 typedef struct s_hit
 {
-	/* distance — negative means no hit */
+	/* distance along the ray; valid only when the hit function returns true */
 	double			t;
 
 	/* hit position: origin + t * direction */
