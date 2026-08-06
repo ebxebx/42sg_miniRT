@@ -49,7 +49,7 @@ static int	run_scene(t_scene *scene)
 		return (1);
 	}
 	init_axes(scene);
-	mlx_key_hook(scene->mlx->win, key_hook, scene);
+	mlx_hook(scene->mlx->win, KeyPress, KeyPressMask, key_hook, scene);
 	mlx_hook(scene->mlx->win, 17, 0, close_window, scene);
 	mlx_expose_hook(scene->mlx->win, expose_hook, scene);
 	mlx_loop_hook(scene->mlx->mlx, loop_hook, scene->mlx);

@@ -19,6 +19,9 @@ void	render_scene(t_scene *scene)
 	render_multithreaded(scene);
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img,
 		0, 0);
+	/* Wait for X11 to finish its shared-memory image transfer before the next
+	 * key-repeat event starts writing a new frame into the same buffer. */
+	mlx_do_sync(scene->mlx->mlx);
 }
 
 // Set up the MLX connection, window, and backing image used for rendering

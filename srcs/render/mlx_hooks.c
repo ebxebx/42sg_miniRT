@@ -14,6 +14,7 @@
 
 #define ROTATE_STEP_DEG 5.0
 #define PAN_STEP 0.5
+#define ZOOM_STEP 5.0
 
 static void	handle_camera(int keycode, t_scene *scene)
 {
@@ -45,13 +46,17 @@ static void	adjust_camera(int keycode, t_scene *scene)
 {
 	if (keycode == XK_equal)
 	{
-		scene->camera.pos.z += 5.0;
-		printf("Camera Position Z: %.1f\n", scene->camera.pos.z);
+		scene->camera.pos = vec3_add(scene->camera.pos,
+				vec3_scale(scene->camera.dir, ZOOM_STEP));
+		printf("Camera position: (%.1f, %.1f, %.1f)\n", scene->camera.pos.x,
+			scene->camera.pos.y, scene->camera.pos.z);
 	}
 	else if (keycode == XK_minus)
 	{
-		scene->camera.pos.z -= 5.0;
-		printf("Camera Position Z: %.1f\n", scene->camera.pos.z);
+		scene->camera.pos = vec3_add(scene->camera.pos,
+				vec3_scale(scene->camera.dir, -ZOOM_STEP));
+		printf("Camera position: (%.1f, %.1f, %.1f)\n", scene->camera.pos.x,
+			scene->camera.pos.y, scene->camera.pos.z);
 	}
 	else if (keycode == XK_1)
 	{
