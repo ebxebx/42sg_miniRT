@@ -156,6 +156,9 @@ typedef struct s_scene
 	/* debug overlay — fisheye effect, toggled with the 'F' key */
 	int				show_fisheye;
 
+	/* debug overlay — projected object outlines, toggled with the 'W' key */
+	int				show_wireframe;
+
 	t_mlx			*mlx;
 }					t_scene;
 

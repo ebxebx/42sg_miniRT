@@ -67,6 +67,7 @@ t_vec3	surface_colour(t_hit *hit);
 // render.c
 void	render_scene(t_scene *scene);
 void	render_multithreaded(t_scene *scene);
+void	render_wireframe(t_scene *scene);
 int		init_mlx(t_mlx *mlx);
 int		close_window(t_scene *scene);
 

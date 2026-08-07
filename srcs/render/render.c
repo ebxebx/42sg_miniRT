@@ -47,6 +47,8 @@ void	render_scene(t_scene *scene)
 		}
 		y++;
 	}
+	if (scene->show_wireframe)
+		render_wireframe(scene);
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->mlx->img,
 		0, 0);
 }

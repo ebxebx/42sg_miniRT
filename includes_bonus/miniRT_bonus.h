@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zchoo <zchoo@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: zeon <zeon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:20:22 by ka-tan            #+#    #+#             */
-/*   Updated: 2026/08/05 19:39:06 by zchoo            ###   ########.fr       */
+/*   Updated: 2026/08/07 18:45:51 by zeon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 # include <math.h>
 # include <stdio.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
-// # define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
-# define ASPECT 1.77778
+# define WIDTH 1024
+# define HEIGHT 768
+# define ASPECT ((double)WIDTH / HEIGHT) // NORMINATE NOT ALLOW
+// # define ASPECT 1.77778
 # define FOV_MAX 180
 
 // highlight brightness
@@ -166,6 +166,9 @@ typedef struct s_scene
 
 	/* debug overlay — fisheye effect, toggled with the 'F' key */
 	int				show_fisheye;
+
+	/* debug overlay — projected object outlines, toggled with the 'W' key */
+	int				show_wireframe;
 
 	t_mlx			*mlx;
 }					t_scene;
