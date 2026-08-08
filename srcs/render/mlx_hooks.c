@@ -84,6 +84,8 @@ int	key_hook(int keycode, void *param)
 		close_window(scene);
 	if (keycode == XK_a)
 		scene->show_axes = !scene->show_axes;
+	else if (keycode == XK_w)
+		scene->show_wireframe = !scene->show_wireframe;
 	else if (keycode == XK_f)
 		scene->show_fisheye = !scene->show_fisheye;
 	else if (keycode == XK_equal || keycode == XK_minus || keycode == XK_1

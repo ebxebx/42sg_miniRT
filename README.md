@@ -117,6 +117,7 @@ Ambient is added once per pixel. Then, for every light in the scene, a shadow ra
 | `F`               | toggle fisheye projection **on / off** for the current camera   |
 | `R`               | reset the camera to exactly what the `.rt` file described       |
 | `A`               | toggle a debug X/Y/Z axis overlay on/off                        |
+| `W`               | toggle a projected wireframe overlay of scene objects on/off    |
 
 Every key press that changes the camera re-renders the full frame before returning control to MLX.
 

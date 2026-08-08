@@ -47,6 +47,7 @@ t_vec3	shade_hit(t_scene *scene, t_hit *hit);
 
 // render.c
 void	render_scene(t_scene *scene);
+void	render_wireframe(t_scene *scene);
 int		init_mlx(t_mlx *mlx);
 int		close_window(t_scene *scene);
 
