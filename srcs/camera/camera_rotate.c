@@ -20,18 +20,22 @@ static void	print_camera_info(t_camera *cam)
 		cam->dir.z);
 }
 
-// pitch uses the camera's existing right axis (from the last frame) so it
-// stays valid even if dir is currently near-vertical; yaw uses world up so
-// the horizon stays level. build_camera_axes recomputes right/up/half_w
-// afterwards, including its own near-vertical fallback.
+// Rotate around the camera's own axes.  Using world up for yaw degenerates
+// when the camera looks straight up or down because dir is parallel to it.
+// Rotating the whole local frame also keeps right/up continuous at the poles.
+// Re-orthonormalise after each complete rotation to remove floating-point
+// drift. Normalising each axis alone fixes its length, but not the small loss
+// of perpendicularity between axes. Keep dir, rebuild right from dir/up, then
+// rebuild up from the corrected right/dir so all three remain unit and square.
 void	rotate_camera(t_camera *cam, double yaw, double pitch)
 {
-	t_vec3	world_up;
-
-	world_up = vec3_init(0, 1, 0);
-	cam->dir = vec3_norm(vec3_rotate(cam->dir, cam->right, pitch));
-	cam->dir = vec3_norm(vec3_rotate(cam->dir, world_up, yaw));
-	build_camera_axes(cam);
+	cam->dir = vec3_rotate(cam->dir, cam->right, pitch);
+	cam->up = vec3_rotate(cam->up, cam->right, pitch);
+	cam->dir = vec3_rotate(cam->dir, cam->up, yaw);
+	cam->right = vec3_rotate(cam->right, cam->up, yaw);
+	cam->dir = vec3_norm(cam->dir);
+	cam->right = vec3_norm(vec3_cross(cam->dir, cam->up));
+	cam->up = vec3_norm(vec3_cross(cam->right, cam->dir));
 	print_camera_info(cam);
 }
 
